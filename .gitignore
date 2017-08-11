@@ -1,10 +1,12 @@
 
 dist/
-.vscode/
+/.vscode/
 
 /.vs
 *.vsix
 .taskkey
 
 node_modules/
-.npm-debug.log
+npm-debug.log
+
+AdvinstTool/*.js*

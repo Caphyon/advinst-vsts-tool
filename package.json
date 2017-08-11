@@ -1,23 +1,23 @@
 {
-  "name": "advinst-tool-installer",
+  "name": "advinst-vsts-tool",
   "description": "Advanced Installer Tool Installer",
   "version": "1.0.0",
-  "main": "AdvinstToolInstaller.js",
   "scripts": {
-    "initdev" : "npm install",
+    "initdev": "npm install",
     "compile": "tsc -project AdvinstTool",
     "clean": "rimraf dist",
     "link": "mkdirp dist/AdvinstTool/node_modules && pushd \"dist/AdvinstTool\" && npm install vsts-task-lib@2.0.5 && npm install vsts-task-tool-lib@0.4.0 && popd",
     "postlink:": "rimraf dist/_temp",
-    "content:task": "copyfiles \"./AdvinstTool/!(*.ts)\"./AdvinstTool/task.json\"  dist",
+    "content:task": "copyfiles ./AdvinstTool/*.js ./AdvinstTool/task.json dist",
     "content:extension": "copyfiles vss-extension.json *.md license.txt *.png dist",
     "content:all": "npm run content:task && npm run content:extension",
-    "build" : "npm run compile && npm run content:all && npm run link",
-    "package": "tfx extension create --root dist --output-path dist --manifest-globs vss-extension.json"
+    "build": "npm run compile && npm run content:all && npm run link",
+    "package": "tfx extension create --root dist --output-path dist --manifest-globs vss-extension.json",
+    "release" : "npm run clean && npm run build && npm run package"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/caphyon/advinst-tool-installer.git"
+    "url": "git+https://github.com/caphyon/advinst-vsts-tool.git"
   },
   "keywords": [
     "VSTS",
@@ -26,9 +26,9 @@
   "author": "Caphyon",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/caphyon/advinst-tool-installer/issues"
+    "url": "https://github.com/caphyon/advinst-vsts-tool/issues"
   },
-  "homepage": "https://github.com/caphyon/advinst-tool-installer#readme",
+  "homepage": "https://github.com/caphyon/advinst-vsts-tool#readme",
   "dependencies": {
     "vsts-task-lib": "^2.0.5",
     "vsts-task-tool-lib": "^0.4.0"

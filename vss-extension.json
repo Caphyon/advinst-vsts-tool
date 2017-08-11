@@ -33,9 +33,20 @@
       "path": "AdvinstTool"
     }
   ],
+  "links": {
+    "repository": {
+      "uri": "https://github.com/caphyon/advinst-vsts-tool"
+    },
+    "issues": {
+      "uri": "https://github.com/caphyon/advinst-vsts-tool/issues"
+    },
+    "support": {
+      "uri": "mailto:support@advancedinstaller.com"
+    }
+  },
   "repository": {
     "type": "git",
-    "uri": "https://github.com/Microsoft/vsts-extension-build-release-tasks"
+    "uri": "https://github.com/caphyon/advinst-vsts-tool"
   },
   "galleryFlags": [
     "Private"
