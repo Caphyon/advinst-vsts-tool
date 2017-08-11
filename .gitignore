@@ -1,0 +1,10 @@
+
+dist/
+.vscode/
+
+/.vs
+*.vsix
+.taskkey
+
+node_modules/
+.npm-debug.log

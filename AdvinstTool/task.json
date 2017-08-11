@@ -1,0 +1,38 @@
+{
+  "id": "ad40e839-f5ce-4ef5-a418-d2203b0dad2b",
+  "name": "AdvancedInstallerTool",
+  "friendlyName": "AdvancedInstaller Tool",
+  "description": "Downloads the latest Advanced Installer tool",
+  "author": "Caphyon",
+  "version": {
+    "Major": 1,
+    "Minor": 0,
+    "Patch": 0
+  },
+  "category": "Tool",
+  "runsOn": [
+    "Agent",
+    "DeploymentGroup"
+  ],
+  "preview": "true",
+  "satisfies": [
+    "AdvancedInstaller"
+  ],
+  "minimumAgentVersion": "2.115.0",
+  "instanceNameFormat": "Use Advanced Installer $(versionSpec)",
+
+  "inputs": [
+    {
+      "name": "versionSpec",
+      "type": "string",
+      "label": "Version of Advanced Installer to install",
+      "required": false,
+      "helpMarkDown": "A version that specifies the ASdvanced Installer version to make available on the path. Use x as a wildcard."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "AdvinstTool.js"
+    }
+  }
+}

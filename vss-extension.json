@@ -1,0 +1,55 @@
+{
+  "id": "advinst-vsts-tool",
+  "publisher": "Caphyon",
+  "name": "AdvancedInstaller Tool",
+  "version": "1.0.0",
+  "description": "Downloads the latest Advanced Installer tool and adds it to PATH.",
+  "tags": [
+    "build",
+    "release",
+    "download",
+    "setup",
+    "advanced installer"
+  ],
+  "public": false,
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+  "categories": [
+    "Build and release"
+  ],
+  "content": {
+    "details": {
+      "path": "README.md"
+    },
+    "license": {
+      "path": "LICENSE.txt"
+    }
+  },
+  "files": [
+    {
+      "path": "AdvinstTool"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "uri": "https://github.com/Microsoft/vsts-extension-build-release-tasks"
+  },
+  "galleryFlags": [
+    "Private"
+  ],
+  "contributions": [
+    {
+      "id": "Caphyon.AdvancedInstaller.Tool",
+      "type": "ms.vss-distributed-task.task",
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "properties": {
+        "name": "task"
+      }
+    }
+  ]
+}
