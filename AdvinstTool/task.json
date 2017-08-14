@@ -27,7 +27,7 @@
       "type": "string",
       "label": "Version of Advanced Installer to install",
       "required": false,
-      "helpMarkDown": "A version that specifies the ASdvanced Installer version to make available on the path. Use x as a wildcard."
+      "helpMarkDown": "A version that specifies the Advanced Installer version to make available on the path. Use x as a wildcard."
     }
   ],
   "execution": {

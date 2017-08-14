@@ -1,7 +1,7 @@
 {
-  "id": "advinst-vsts-tool",
+  "id": "AdvancedInstallerTool",
   "publisher": "Caphyon",
-  "name": "AdvancedInstaller Tool",
+  "name": "Advanced Installer Tool",
   "version": "1.0.0",
   "description": "Downloads the latest Advanced Installer tool and adds it to PATH.",
   "tags": [
@@ -33,7 +33,13 @@
       "path": "AdvinstTool"
     }
   ],
+  "icons": {
+    "default": "images/advinst-logo.png"
+  },
   "links": {
+    "home": {
+      "uri": "https://github.com/caphyon/advinst-vsts-tool"
+    },
     "repository": {
       "uri": "https://github.com/caphyon/advinst-vsts-tool"
     },
@@ -48,6 +54,7 @@
     "type": "git",
     "uri": "https://github.com/caphyon/advinst-vsts-tool"
   },
+  
   "galleryFlags": [
     "Private"
   ],
@@ -59,7 +66,7 @@
         "ms.vss-distributed-task.tasks"
       ],
       "properties": {
-        "name": "task"
+        "name": "AdvinstTool"
       }
     }
   ]

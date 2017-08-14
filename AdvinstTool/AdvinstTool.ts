@@ -45,19 +45,25 @@ async function acquireAdvinst(version: string): Promise<string> {
   // Download - a tool installer intimately knows how to get the tool (and construct urls)
   //
   version = toolLib.cleanVersion(version);
-  let fileName = 'bin\x86\AdvancedInstaller.com';
   let downloadUrl = 'http://www.advancedinstaller.com/downloads/advinst.msi';
-
+  console.log('Download AdvancedInstaller version ' + version + ' from: ' + downloadUrl);
   let downloadPath: string = await toolLib.downloadTool(downloadUrl);
+  if ( !taskLib.find(downloadPath) )
+    throw new Error('Failed to download Advanced Installer tool.');
 
   //
   // Admin install to extract resources
   //
   let extPath = _getAgentTemp();
   extPath = path.join(extPath, 'advinst');
-  taskLib.exec('msiexec.exe', '/a' + downloadPath + "TARGETDIR=" + extPath);
+  console.log('Extract AdvancedInstaller version ' + version + ' to: ' + extPath);
+  taskLib.exec('msiexec.exe', '/a \"' + downloadPath + '\" /qn TARGETDIR=' + extPath);
 
+  let fileName = 'bin\x86';
   let toolRoot = path.join(extPath, fileName);
+  if ( !taskLib.find(toolRoot) )
+    throw new Error('Failed to extract Advanced Installer tool.');
+
   return await toolLib.cacheDir(toolRoot, 'AdvancedInstaller', version);
 }
 
