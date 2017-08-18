@@ -1,11 +1,11 @@
 {
   "name": "advinst-vsts-tool",
-  "description": "Advanced Installer Tool Installer",
+  "description": "Advanced Installer Tool",
   "version": "1.0.0",
   "scripts": {
     "initdev": "npm install",
     "compile": "tsc -project AdvinstTool",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist && rimraf ./AdvinstTool/*.js && rimraf ./AdvinstTool/*.js.map",
     "link": "mkdirp dist/AdvinstTool/node_modules && pushd \"dist/AdvinstTool\" && npm install vsts-task-lib@2.0.5 && npm install vsts-task-tool-lib@0.4.0 && popd",
     "postlink:": "rimraf dist/_temp",
     "content:task": "copyfiles ./AdvinstTool/*.js ./AdvinstTool/task.json ./AdvinstTool/*.png dist",
@@ -37,7 +37,7 @@
     "@types/node": "^8.0.19",
     "copyfiles": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "rimraf": "2.6.1",
+    "rimraf": "^2.6.1",
     "tfx-cli": "^0.4.9",
     "typescript": "^2.4.2"
   }

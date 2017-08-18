@@ -45,28 +45,32 @@ async function acquireAdvinst(version: string): Promise<string> {
   // Download - a tool installer intimately knows how to get the tool (and construct urls)
   //
   version = toolLib.cleanVersion(version);
-  let downloadUrl = 'http://www.advancedinstaller.com/downloads/advinst.msi';
-  console.log('Download AdvancedInstaller version ' + version + ' from: ' + downloadUrl);
-  let downloadPath: string = await toolLib.downloadTool(downloadUrl);
-  if (!taskLib.find(downloadPath))
+  let downloadUrl: string = 'http://www.advancedinstaller.com/downloads/advinst.msi';
+  
+  let msiDownloadPath: string = await toolLib.downloadTool(downloadUrl, 'advinst.msi');
+  if (!taskLib.exist(msiDownloadPath)) {
     throw new Error('Failed to download Advanced Installer tool.');
-
+  }
   //
   // Admin install to extract resources
   //
-  let extPath = _getAgentTemp();
-  extPath = path.join(extPath, 'advinst');
-  console.log('Extract AdvancedInstaller version ' + version + ' to: ' + extPath);
-  let err = taskLib.exec('msiexec.exe', '/a \"' + downloadPath + '\" /qn TARGETDIR=' + extPath);
-  if (err != 0)
-    throw new Error('Failed to execure msiexec.exe and extract Advanced Installer tool.');
+  let advinstWorkFolder = path.join(_getAgentTemp(), 'AdvancedInstaller');
+  taskLib.mkdirP(advinstWorkFolder);
 
-  let fileName = 'bin\x86';
-  let toolRoot = path.join(extPath, fileName);
-  if (!taskLib.find(toolRoot))
+  let msiLogPath: string =  path.join(advinstWorkFolder, 'advinst_install.log');
+  let msiExtractionPath: string = path.join(advinstWorkFolder, 'resources');
+  let msiArguments: string[] = ['/a', msiDownloadPath, 'TARGETDIR=' + msiExtractionPath, '/qn', '/l*v', msiLogPath];
+
+  let exitCode = await taskLib.execSync('msiexec.exe', msiArguments).code;
+  if (exitCode != 0) {
+    throw new Error('Failed to execute msiexec.exe and extract AdvancedInstaller tool. Error: ' + exitCode);
+  }
+  let advinstToolRoot = path.join(msiExtractionPath, 'bin', 'x86');
+  if (!taskLib.exist(advinstToolRoot)) {
     throw new Error('Failed to extract Advanced Installer tool.');
+  }
 
-  return await toolLib.cacheDir(toolRoot, 'AdvancedInstaller', version);
+  return await toolLib.cacheDir(advinstToolRoot, 'AdvancedInstaller', version);
 }
 
 function _getAgentTemp() {

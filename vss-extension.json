@@ -3,7 +3,7 @@
   "publisher": "Caphyon",
   "name": "Advanced Installer Tool",
   "version": "1.0.0",
-  "description": "Downloads the latest Advanced Installer tool and adds it to PATH.",
+  "description": "Downloads the Advanced Installer tool and adds it to PATH.",
   "tags": [
     "build",
     "release",
