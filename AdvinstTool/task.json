@@ -1,8 +1,8 @@
 {
   "id": "ad40e839-f5ce-4ef5-a418-d2203b0dad2b",
   "name": "AdvancedInstallerTool",
-  "friendlyName": "AdvancedInstaller Tool",
-  "description": "Downloads the latest Advanced Installer tool",
+  "friendlyName": "Advanced Installer Tool",
+  "description": "Downloads Advanced Installer tool",
   "author": "Caphyon",
   "version": {
     "Major": 1,
@@ -19,15 +19,21 @@
     "AdvancedInstaller"
   ],
   "minimumAgentVersion": "2.115.0",
-  "instanceNameFormat": "Use Advanced Installer $(versionSpec)",
-
+  "instanceNameFormat": "Use Advanced Installer $(advinstVersion)",
   "inputs": [
     {
-      "name": "versionSpec",
+      "name": "advinstVersion",
       "type": "string",
-      "label": "Version of Advanced Installer to install",
+      "label": "Version",
+      "required": true,
+      "helpMarkDown": "A version that specifies the Advanced Installer version to make available on the PATH. If no version is specified the latest available will be used."
+    },
+    {
+      "name": "advinstLicense",
+      "type": "string",
+      "label": "License",
       "required": false,
-      "helpMarkDown": "A version that specifies the Advanced Installer version to make available on the path. Use x as a wildcard."
+      "helpMarkDown": "Advanced Installer license that will be used for registration."
     }
   ],
   "execution": {
