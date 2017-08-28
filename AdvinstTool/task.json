@@ -30,8 +30,8 @@
     },
     {
       "name": "advinstLicense",
-      "type": "string",
-      "label": "License",
+      "type": "password",
+      "label": "License Key",
       "required": false,
       "helpMarkDown": "Advanced Installer license that will be used for registration."
     }
@@ -39,6 +39,11 @@
   "execution": {
     "Node": {
       "target": "AdvinstTool.js"
+    }
+  },
+  "postjobexecution": {
+    "Node": {
+      "target": "AdvinstToolCleanup.js"
     }
   }
 }

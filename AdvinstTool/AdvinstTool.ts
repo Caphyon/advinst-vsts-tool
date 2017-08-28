@@ -5,8 +5,10 @@ import * as taskCmd from 'vsts-task-lib/taskcommand';
 import * as path from 'path';
 import * as semvish from 'semvish';
 
-let advinstToolName: string = 'advinst';
-let advinstToolArch: string = 'x86';
+const advinstToolId: string = 'advinst';
+const advinstToolArch: string = 'x86';
+const advinstToolSubpath: string = 'bin\\x86';
+const advinstToolExecutable: string = 'AdvancedInstaller.com';
 
 async function run() {
   try {
@@ -26,7 +28,7 @@ async function run() {
 
 async function getAdvinst(version: string, license: string): Promise<void> {
 
-  if ( !semvish.valid(version))
+  if (!semvish.valid(version))
     throw Error('Invalid version was specified. Version: ' + version);
 
   let toolPath: string;
@@ -38,10 +40,9 @@ async function getAdvinst(version: string, license: string): Promise<void> {
     //Extract avinst.msi and cache the content.
     let cachedToolPath: string = await acquireAdvinst(version);
     //Compute the actual AdvancedInstaller.com folder
-    toolPath = path.join(cachedToolPath, 'bin', 'x86')
+    toolPath = path.join(cachedToolPath, advinstToolSubpath);
     //Register advinst if a licens key was provided
-    if ( license )
-      await registerAdvinst(toolPath, license);
+    await registerAdvinst(toolPath, license);
     //Add the advinst folder to PATH
     toolLib.prependPath(toolPath);
   }
@@ -50,8 +51,21 @@ async function getAdvinst(version: string, license: string): Promise<void> {
   }
 }
 
-async function registerAdvinst(toolPath: string, license: string): Promise<boolean> {
-  return true;
+async function registerAdvinst(toolRoot: string, license: string): Promise<void> {
+  if (!license) {
+    taskLib.warning('No license key was specified. Advanced Installer will run in trial mode.')
+    return;
+  }
+
+  console.log('Registering Advanced Installer.')
+  let execResult = taskLib.execSync(path.join(toolRoot, advinstToolExecutable), ['/register', license]);
+  if (execResult.code != 0) {
+    throw new Error('Failed to register Advanced Installer. Error: ' + execResult.stdout);
+  }
+
+  //Copy the advinst license near the exe.
+  let licensePath = path.join(taskLib.getVariable('ProgramData'), 'Caphyon\\Advanced Installer\\license80.dat');
+  taskLib.checkPath(licensePath, 'Advanced Installer license');
 }
 
 async function acquireAdvinst(version: string): Promise<string> {
@@ -66,7 +80,7 @@ async function acquireAdvinst(version: string): Promise<string> {
     throw new Error('Failed to extract tool.');
   }
   console.log('Caching this installed tool.');
-  let cachedToolPath: string = await toolLib.cacheDir(advinstToolRoot, advinstToolName, 
+  let cachedToolPath: string = await toolLib.cacheDir(advinstToolRoot, advinstToolId,
     semvish.clean(version), advinstToolArch);
   console.log('Successfully installed tool version ' + version);
 
@@ -76,10 +90,9 @@ async function acquireAdvinst(version: string): Promise<string> {
 //
 // Helper methods
 //
-
 function _getLocalTool(version: string) {
   console.log('Checking if a cached copy exists for this version...');
-  return toolLib.findLocalTool(advinstToolName, version, advinstToolArch);
+  return toolLib.findLocalTool(advinstToolId, version, advinstToolArch);
 }
 
 async function _downloadAdvinst(version: string): Promise<string> {
@@ -98,8 +111,7 @@ async function _extractAdvinst(sourceMsi: string): Promise<string> {
 
   let msiexecArguments: string[] = ['/a', sourceMsi, 'TARGETDIR=' + msiExtractionPath, '/qn', '/l*v', msiLogPath];
 
-  let exitCode = await taskLib.exec('msiexec.exe', msiexecArguments);
-  taskLib.command('task.uploadfile', {}, msiLogPath);
+  let exitCode = taskLib.execSync('msiexec.exe', msiexecArguments).code;
   if (exitCode != 0) {
     taskLib.command('task.uploadfile', {}, msiLogPath);
     return '';
