@@ -1,5 +1,5 @@
-import * as toolLib from 'vsts-task-tool-lib/tool';
 import * as taskLib from 'vsts-task-lib/task';
+import * as toolLib from 'vsts-task-tool-lib/tool';
 import * as taskCmd from 'vsts-task-lib/taskcommand';
 
 import * as path from 'path';
@@ -12,13 +12,13 @@ const advinstToolExecutable: string = 'AdvancedInstaller.com';
 
 async function run() {
   try {
+    taskLib.setResourcePath(path.join(__dirname, "task.json"));
 
     if (taskLib.osType() != 'Windows_NT')
-      throw new Error('Only Windows systems are supported.');
+      throw new Error(taskLib.loc("UnsupportedOS"));
     // Retrieve user inputs
     let version: string = taskLib.getInput('advinstVersion', true);
-    let license: string = taskLib.getInput('advinstLicense', false);
-
+    let license: string = taskLib.getInput('advinstLicense', true);
     await getAdvinst(version, license);
   }
   catch (error) {
@@ -27,16 +27,16 @@ async function run() {
 }
 
 async function getAdvinst(version: string, license: string): Promise<void> {
-
+  
   if (!semvish.valid(version))
-    throw Error('Invalid version was specified. Version: ' + version);
+    throw Error(taskLib.loc("InvalidVersionFormat", version));
 
   let toolPath: string;
   //Verify if this version of advinst was already installed.
   toolPath = _getLocalTool(semvish.clean(version));
 
   if (!toolPath) {
-    console.log('Aquire a new version: ' + version);
+    console.log(taskLib.loc("InstallNewTool"));
     //Extract avinst.msi and cache the content.
     let cachedToolPath: string = await acquireAdvinst(version);
     //Compute the actual AdvancedInstaller.com folder
@@ -47,42 +47,36 @@ async function getAdvinst(version: string, license: string): Promise<void> {
     toolLib.prependPath(toolPath);
   }
   else {
-    console.log('Using cached tool. Version: ' + version);
+    console.log(taskLib.loc("UseCachedTool", toolPath));
   }
 }
 
 async function registerAdvinst(toolRoot: string, license: string): Promise<void> {
-  if (!license) {
-    taskLib.warning('No license key was specified. Advanced Installer will run in trial mode.')
-    return;
-  }
-
-  console.log('Registering Advanced Installer.')
+  console.log(taskLib.loc("RegisterTool"))
   let execResult = taskLib.execSync(path.join(toolRoot, advinstToolExecutable), ['/register', license]);
   if (execResult.code != 0) {
-    throw new Error('Failed to register Advanced Installer. Error: ' + execResult.stdout);
+    throw new Error(taskLib.loc("RegisterToolFailed", execResult.stdout));
   }
-
-  //Copy the advinst license near the exe.
   let licensePath = path.join(taskLib.getVariable('ProgramData'), 'Caphyon\\Advanced Installer\\license80.dat');
-  taskLib.checkPath(licensePath, 'Advanced Installer license');
+  taskLib.checkPath(licensePath, taskLib.loc("AdvinstLicenseFile"));
 }
 
 async function acquireAdvinst(version: string): Promise<string> {
 
   let advinstDownloadPath: string = await _downloadAdvinst(version);
   if (!taskLib.exist(advinstDownloadPath)) {
-    throw new Error('Failed to download tool.');
+    throw new Error(taskLib.loc("DownloadToolFailed"));
   }
 
   let advinstToolRoot = await _extractAdvinst(advinstDownloadPath);
   if (!taskLib.exist(advinstToolRoot)) {
-    throw new Error('Failed to extract tool.');
+    throw new Error(taskLib.loc("ExtractToolFailed"));
   }
-  console.log('Caching this installed tool.');
+
+  console.log(taskLib.loc("CacheTool"));
   let cachedToolPath: string = await toolLib.cacheDir(advinstToolRoot, advinstToolId,
     semvish.clean(version), advinstToolArch);
-  console.log('Successfully installed tool version ' + version);
+  console.log(taskLib.loc("CacheToolSuccess", version));
 
   return cachedToolPath;
 }
@@ -91,16 +85,18 @@ async function acquireAdvinst(version: string): Promise<string> {
 // Helper methods
 //
 function _getLocalTool(version: string) {
-  console.log('Checking if a cached copy exists for this version...');
+  console.log(taskLib.loc("CheckToolCache"));
   return toolLib.findLocalTool(advinstToolId, version, advinstToolArch);
 }
 
 async function _downloadAdvinst(version: string): Promise<string> {
   let advinstDownloadUrl = 'http://www.advancedinstaller.com/downloads/' + version + '/advinst.msi';
+  console.log("DownloadTool", advinstDownloadUrl);
   return toolLib.downloadTool(advinstDownloadUrl);
 }
 
 async function _extractAdvinst(sourceMsi: string): Promise<string> {
+  console.log(taskLib.loc("ExtractTool"));
 
   let advinstWorkFolder = path.join(_getAgentTemp(), 'AdvancedInstaller');
   let msiExtractionPath: string = path.join(advinstWorkFolder, 'resources');
@@ -123,7 +119,7 @@ function _getAgentTemp() {
   taskLib.assertAgent('2.115.0');
   let tempDirectory = taskLib.getVariable('Agent.TempDirectory');
   if (!tempDirectory) {
-    throw new Error('Agent.TempDirectory is not set');
+    throw new Error(taskLib.loc("AgentTempDirAssert"));
   }
   return tempDirectory;
 }

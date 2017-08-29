@@ -1,8 +1,8 @@
 {
   "id": "ad40e839-f5ce-4ef5-a418-d2203b0dad2b",
   "name": "AdvancedInstallerTool",
-  "friendlyName": "Advanced Installer Tool",
-  "description": "Downloads Advanced Installer tool",
+  "friendlyName": "Advanced Installer Tool Installer",
+  "description": "Downloads and installs Advanced Installer tool",
   "author": "Caphyon",
   "version": {
     "Major": 1,
@@ -19,14 +19,14 @@
     "AdvancedInstaller"
   ],
   "minimumAgentVersion": "2.115.0",
-  "instanceNameFormat": "Use Advanced Installer $(advinstVersion)",
+  "instanceNameFormat": "Install Advanced Installer $(advinstVersion)",
   "inputs": [
     {
       "name": "advinstVersion",
       "type": "string",
       "label": "Version",
       "required": true,
-      "helpMarkDown": "A version that specifies the Advanced Installer version to make available on the PATH. If no version is specified the latest available will be used."
+      "helpMarkDown": "Advanced Installer version to make available on the PATH."
     },
     {
       "name": "advinstLicense",
@@ -45,5 +45,22 @@
     "Node": {
       "target": "AdvinstToolCleanup.js"
     }
+  },
+  "messages": {
+    "UnsupportedOS": "Only Windows systems are supported.",
+    "InvalidVersionFormat": "Invalid version was specified. Version: %s",
+    "InstallNewTool": "Cache does not contains this Advanced Installer version. Will be downloaded and installed.",
+    "UseCachedTool": "Cached copy of AdvancedInstaller exists. No need to install afresh. Cached tool location: %s.",
+    "RegisterTool": "Registering Advanced Installer.",
+    "RegisterToolFailed": "Failed to register Advanced Installer. Error: %s",
+    "AdvinstLicenseFile": "Advanced Installer license",
+    "DownloadTool": "Downloading Advanced Installer. URL: %s",
+    "DownloadToolFailed": "Failed to download Advanced Installer.",
+    "ExtractTool" : "Extracting Advanced Installer",
+    "ExtractToolFailed": "Failed to extract Advanced Installer.",
+    "CacheTool": "Caching Advanced Installer tool.",
+    "CacheToolSuccess" : "Successfully Advanced Installer tool. Version %s",
+    "CheckToolCache": "Checking if a cached copy exists for this version...",
+    "AgentTempDirAssert" : "Agent.TempDirectory is not set"
   }
 }

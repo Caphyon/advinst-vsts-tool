@@ -1,16 +1,16 @@
 {
   "name": "advinst-vsts-tool",
-  "description": "Advanced Installer Tool",
+  "description": "Advanced Installer Tool Installer",
   "version": "1.0.0",
   "scripts": {
     "initdev": "npm install",
     "compile": "tsc -project AdvinstTool",
     "clean": "rimraf dist && rimraf ./AdvinstTool/*.js && rimraf ./AdvinstTool/*.js.map",
-    "link": "mkdirp dist/AdvinstTool/node_modules && pushd \"dist/AdvinstTool\" && npm install vsts-task-lib@2.0.7 && npm install vsts-task-tool-lib@0.4.1 && npm install semvish@1.1.0 && popd",
+    "link": "mkdirp dist/AdvinstTool/node_modules && pushd \"dist/AdvinstTool\" && npm install vsts-task-lib@2.0.7 && npm install vsts-task-tool-lib@0.4.0 && npm install semvish@1.1.0 && popd",
     "postlink:": "rimraf dist/_temp",
-    "content:task": "copyfiles ./AdvinstTool/*.js ./AdvinstTool/task.json ./AdvinstTool/*.png dist",
-    "content:extension": "copyfiles vss-extension.json *.md license.txt ./images/*.png dist",
-    "content:all": "npm run content:task && npm run content:extension",
+    "content:task:tool": "copyfiles ./AdvinstTool/*.js ./AdvinstTool/task.json ./AdvinstTool/task.loc.json ./AdvinstTool/**/*.resjson ./AdvinstTool/*.png dist",
+    "content:vsix": "copyfiles vss-extension.json *.md license.txt ./images/*.png dist",
+    "content:all": "npm run content:task:tool && npm run content:vsix",
     "build": "npm run compile && npm run content:all && npm run link",
     "package": "tfx extension create --root dist --output-path dist --manifest-globs vss-extension.json",
     "release": "npm run clean && npm run build && npm run package"
@@ -31,15 +31,14 @@
   "homepage": "https://github.com/caphyon/advinst-vsts-tool#readme",
   "dependencies": {
     "vsts-task-lib": "2.0.7",
-    "vsts-task-tool-lib": "0.4.1"
+    "vsts-task-tool-lib": "0.4.0",
+    "semvish": "^1.1.0"
   },
   "devDependencies": {
     "@types/node": "^8.0.19",
     "copyfiles": "^1.2.0",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.6.1",
-    "semver": "^5.4.1",
-    "semvish": "^1.1.0",
     "tfx-cli": "^0.4.9",
     "typescript": "^2.4.2"
   }
