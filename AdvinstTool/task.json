@@ -2,7 +2,7 @@
   "id": "ad40e839-f5ce-4ef5-a418-d2203b0dad2b",
   "name": "AdvancedInstallerTool",
   "friendlyName": "Advanced Installer Tool Installer",
-  "description": "Downloads and installs Advanced Installer tool",
+  "description": "Acquires a specific version of Advanced Installer from internet or the tools cache and adds it to the PATH. Use this task to install Advanced Installer for subsequent tasks",
   "author": "Caphyon",
   "version": {
     "Major": 1,
@@ -19,14 +19,14 @@
     "AdvancedInstaller"
   ],
   "minimumAgentVersion": "2.115.0",
-  "instanceNameFormat": "Install Advanced Installer $(advinstVersion)",
+  "instanceNameFormat": "Use Advanced Installer $(advinstVersion)",
   "inputs": [
     {
       "name": "advinstVersion",
       "type": "string",
       "label": "Version",
       "required": true,
-      "helpMarkDown": "Advanced Installer version to make available on the PATH."
+      "helpMarkDown": "Advanced Installer version to make available on the PATH. "
     },
     {
       "name": "advinstLicense",

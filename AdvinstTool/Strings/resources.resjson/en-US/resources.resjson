@@ -1,7 +1,7 @@
 {
   "loc.friendlyName": "Advanced Installer Tool Installer",
-  "loc.description": "Downloads and installs Advanced Installer tool",
-  "loc.instanceNameFormat": "Install Advanced Installer $(advinstVersion)",
+  "loc.description": "Acquires a specific version of Advanced Installer from internet or the tools cache and adds it to the PATH. Use this task to install Advanced Installer for subsequent tasks",
+  "loc.instanceNameFormat": "Use Advanced Installer $(advinstVersion)",
   "loc.input.label.advinstVersion": "Version",
   "loc.input.help.advinstVersion": "Advanced Installer version to make available on the PATH.",
   "loc.input.label.advinstLicense": "License Key",
