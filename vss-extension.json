@@ -31,6 +31,9 @@
     },
     "license": {
       "path": "LICENSE.txt"
+    },
+    "changes": {
+      "path": "CHANGELOG.md"
     }
   },
   "files": [
