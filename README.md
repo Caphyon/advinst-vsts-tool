@@ -6,7 +6,7 @@ This is a [Tool Installer](https://www.visualstudio.com/en-us/docs/build/concept
 
 # How to use 
 
-This installer task is designed to work in tandem with the [Advanced Installer Build Task](https://marketplace.visualstudio.com/items?itemName=caphyon.AdvancedInstaller-BuildTask). You have thus complete ssupport for building Advanced Installer projets from Team Services.
+This installer task is designed to work in tandem with the [Advanced Installer Build Task](https://marketplace.visualstudio.com/items?itemName=caphyon.AdvancedInstaller-BuildTask). You have thus complete support for building Advanced Installer projects from Team Services.
 
 ![Tool Installers](images/tool-installers.png)
 
