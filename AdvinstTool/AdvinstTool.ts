@@ -7,8 +7,12 @@ import * as semvish from 'semvish';
 
 const advinstToolId: string = 'advinst';
 const advinstToolArch: string = 'x86';
-const advinstToolSubpath: string = 'bin\\x86';
+const advinstToolSubPath: string = 'bin\\x86';
 const advinstToolExecutable: string = 'AdvancedInstaller.com';
+const advinstMSBuildTargetsVar: string = 'AdvancedInstallerMSBuildTargets';
+const advinstToolRootVar: string = 'AdvancedInstallerRoot';
+const advinstMSBuildTargetsSubPath: string = 'ProgramFilesFolder\\MSBuild\\Caphyon\\Advanced Installer';
+const advinstDownloadUrlVar: string = 'advancedinstaller.url';
 
 async function run() {
   try {
@@ -27,7 +31,7 @@ async function run() {
 }
 
 async function getAdvinst(version: string, license: string): Promise<void> {
-  
+
   if (!semvish.valid(version))
     throw Error(taskLib.loc("InvalidVersionFormat", version));
 
@@ -37,14 +41,19 @@ async function getAdvinst(version: string, license: string): Promise<void> {
 
   if (!toolPath) {
     console.log(taskLib.loc("InstallNewTool"));
-    //Extract avinst.msi and cache the content.
-    let cachedToolPath: string = await acquireAdvinst(version);
+    //Extract advinst.msi and cache the content.
+    let cachedToolRoot: string = await acquireAdvinst(version);
     //Compute the actual AdvancedInstaller.com folder
-    toolPath = path.join(cachedToolPath, advinstToolSubpath);
-    //Register advinst if a licens key was provided
+    toolPath = path.join(cachedToolRoot, advinstToolSubPath);
+    //Register advinst if a license key was provided
     await registerAdvinst(toolPath, license);
     //Add the advinst folder to PATH
     toolLib.prependPath(toolPath);
+
+    //Set the environment variables that will be used by Advanced Installer tasks later on.
+    let msBuildTargetsPath: string = path.join(cachedToolRoot, advinstMSBuildTargetsSubPath);
+    taskLib.setVariable(advinstMSBuildTargetsVar, msBuildTargetsPath);
+    taskLib.setVariable(advinstToolRootVar, cachedToolRoot);
   }
   else {
     console.log(taskLib.loc("UseCachedTool", toolPath));
@@ -90,8 +99,11 @@ function _getLocalTool(version: string) {
 }
 
 async function _downloadAdvinst(version: string): Promise<string> {
-  let advinstDownloadUrl = 'http://www.advancedinstaller.com/downloads/' + version + '/advinst.msi';
-  console.log("DownloadTool", advinstDownloadUrl);
+  let advinstDownloadUrl : string = taskLib.getVariable(advinstDownloadUrlVar);
+  if (!advinstDownloadUrl)
+    advinstDownloadUrl = 'http://www.advancedinstaller.com/downloads/' + version + '/advinst.msi';
+
+  console.log(taskLib.loc("DownloadTool", advinstDownloadUrl));
   return toolLib.downloadTool(advinstDownloadUrl);
 }
 

@@ -12,7 +12,6 @@
     "advanced installer",
     "tool installer"
   ],
-  "public": false,
   "targets": [
     {
       "id": "Microsoft.VisualStudio.Services.Cloud"
@@ -66,10 +65,6 @@
     "type": "git",
     "uri": "https://github.com/caphyon/advinst-vsts-tool"
   },
-  
-  "galleryFlags": [
-    "Public"
-  ],
   "contributions": [
     {
       "id": "Caphyon.AdvancedInstaller.Tool",
