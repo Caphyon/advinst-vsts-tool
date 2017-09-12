@@ -22,7 +22,7 @@ async function run() {
       throw new Error(taskLib.loc("UnsupportedOS"));
     // Retrieve user inputs
     let version: string = taskLib.getInput('advinstVersion', true);
-    let license: string = taskLib.getInput('advinstLicense', true);
+    let license: string = taskLib.getInput('advinstLicense', false);
     await getAdvinst(version, license);
   }
   catch (error) {
@@ -61,6 +61,9 @@ async function getAdvinst(version: string, license: string): Promise<void> {
 }
 
 async function registerAdvinst(toolRoot: string, license: string): Promise<void> {
+  if (!license)
+    return;
+
   console.log(taskLib.loc("RegisterTool"))
   let execResult = taskLib.execSync(path.join(toolRoot, advinstToolExecutable), ['/register', license]);
   if (execResult.code != 0) {
