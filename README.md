@@ -4,6 +4,8 @@ Acquires a specific version of Advanced Installer from internet or the tools cac
 
 This is a [Tool Installer](https://www.visualstudio.com/en-us/docs/build/concepts/process/tasks#tool-installers) extension. To use this capability you must be working on Team Services and enable the **Task tool installers** [preview feature](https://www.visualstudio.com/en-us/docs/collaborate/preview-features) for your account.
 
+[Tool Installers](https://www.visualstudio.com/en-us/docs/build/concepts/process/tasks#tool-installers) are supported starting with TFS 2018. 
+
 # How to use 
 
 This installer task is designed to work in tandem with the [Advanced Installer Build Task](https://marketplace.visualstudio.com/items?itemName=caphyon.AdvancedInstaller-BuildTask). You have thus complete support for building Advanced Installer projects from Team Services.
