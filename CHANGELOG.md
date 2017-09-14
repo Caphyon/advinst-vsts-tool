@@ -1,18 +1,17 @@
-ChangeLog
-=========
+# ChangeLog
+
 Changelog of Advanced Installer Tool Installer task.
 
-Advanced Installer Tool Installer 1.0.0
+### Advanced Installer Tool Installer 1.0.0
 -----------------------
-### Official release
-First official release.
 
-Advanced Installer Tool Installer 1.0.1
------------------------
+* First official release.
+
+### Advanced Installer Tool Installer 1.0.1
+
 * Fixed spelling mistakes and updated help.
 
-Advanced Installer Tool Installer 1.0.2
------------------------
+### Advanced Installer Tool Installer 1.0.2
 
 Improvements
 * Prepare environment for building Advanced Installer Visual Studio projects (AIPROJ).
@@ -22,3 +21,6 @@ Improvements
 Bugs:
 * Removed mandatory flag for license field. Simple projects don't need a license.
 
+### Advanced Installer Tool Installer 1.0.3
+
+* Cosmetic changes to Marketplace page.

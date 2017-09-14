@@ -2,7 +2,7 @@
   "id": "AdvancedInstallerTool",
   "publisher": "Caphyon",
   "name": "Advanced Installer Tool Installer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Acquires a specific version of Advanced Installer from internet or the tools cache and adds it to the PATH.",
   "tags": [
     "build",
@@ -14,7 +14,11 @@
   ],
   "targets": [
     {
-      "id": "Microsoft.VisualStudio.Services"
+      "id": "Microsoft.VisualStudio.Services.Cloud"
+    },
+    {
+      "id": "Microsoft.TeamFoundation.Server",
+      "version": "[16.0,)"
     }
   ],
   "categories": [
@@ -31,7 +35,7 @@
     "license": {
       "path": "LICENSE.txt"
     },
-    "changes": {
+    "changelog": {
       "path": "CHANGELOG.md"
     }
   },
@@ -49,7 +53,10 @@
   },
   "links": {
     "home": {
-      "uri": "https://github.com/caphyon/advinst-vsts-tool"
+      "uri": "https://www.advancedinstaller.com"
+    },
+    "learn": {
+      "uri": "http://www.advancedinstaller.com/features.html"
     },
     "repository": {
       "uri": "https://github.com/caphyon/advinst-vsts-tool"
@@ -65,6 +72,11 @@
     "type": "git",
     "uri": "https://github.com/caphyon/advinst-vsts-tool"
   },
+  "galleryProperties": [
+    {
+      "markdownItParser": true
+    }
+  ],
   "contributions": [
     {
       "id": "Caphyon.AdvancedInstaller.Tool",
