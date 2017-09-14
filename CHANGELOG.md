@@ -3,7 +3,6 @@
 Changelog of Advanced Installer Tool Installer task.
 
 ### Advanced Installer Tool Installer 1.0.0
------------------------
 
 * First official release.
 
