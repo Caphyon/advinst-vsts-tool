@@ -18,7 +18,7 @@
   "loc.messages.ExtractTool": "Extracting Advanced Installer",
   "loc.messages.ExtractToolFailed": "Failed to extract Advanced Installer.",
   "loc.messages.CacheTool": "Caching Advanced Installer tool.",
-  "loc.messages.CacheToolSuccess": "Successfully Advanced Installer tool. Version %s",
+  "loc.messages.CacheToolSuccess": "Successfully cached Advanced Installer tool. Version %s",
   "loc.messages.CheckToolCache": "Checking if a cached copy exists for this version...",
   "loc.messages.AgentTempDirAssert": "Agent.TempDirectory is not set"
 }

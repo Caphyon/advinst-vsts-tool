@@ -23,3 +23,9 @@ Bugs:
 ### Advanced Installer Tool Installer 1.0.3
 
 * Cosmetic changes to Marketplace page.
+
+### Advanced Installer Tool Installer 1.0.4
+
+Bugs:
+* Advanced Installer was not found by subsequent tasks when reused from tools cache.
+

@@ -13,6 +13,7 @@ const advinstMSBuildTargetsVar: string = 'AdvancedInstallerMSBuildTargets';
 const advinstToolRootVar: string = 'AdvancedInstallerRoot';
 const advinstMSBuildTargetsSubPath: string = 'ProgramFilesFolder\\MSBuild\\Caphyon\\Advanced Installer';
 const advinstDownloadUrlVar: string = 'advancedinstaller.url';
+const advinstLicenseSubPath: string = 'Caphyon\\Advanced Installer\\license80.dat';
 
 async function run() {
   try {
@@ -35,29 +36,35 @@ async function getAdvinst(version: string, license: string): Promise<void> {
   if (!semvish.valid(version))
     throw Error(taskLib.loc("InvalidVersionFormat", version));
 
-  let toolPath: string;
+  let cachedToolRoot: string;
   //Verify if this version of advinst was already installed.
-  toolPath = _getLocalTool(semvish.clean(version));
+  cachedToolRoot = _getLocalTool(semvish.clean(version));
 
-  if (!toolPath) {
+  if (!cachedToolRoot) {
     console.log(taskLib.loc("InstallNewTool"));
     //Extract advinst.msi and cache the content.
-    let cachedToolRoot: string = await acquireAdvinst(version);
-    //Compute the actual AdvancedInstaller.com folder
-    toolPath = path.join(cachedToolRoot, advinstToolSubPath);
-    //Register advinst if a license key was provided
-    await registerAdvinst(toolPath, license);
-    //Add the advinst folder to PATH
-    toolLib.prependPath(toolPath);
-
-    //Set the environment variables that will be used by Advanced Installer tasks later on.
-    let msBuildTargetsPath: string = path.join(cachedToolRoot, advinstMSBuildTargetsSubPath);
-    taskLib.setVariable(advinstMSBuildTargetsVar, msBuildTargetsPath);
-    taskLib.setVariable(advinstToolRootVar, cachedToolRoot);
+    cachedToolRoot = await acquireAdvinst(version);
   }
   else {
-    console.log(taskLib.loc("UseCachedTool", toolPath));
+    console.log(taskLib.loc("UseCachedTool", cachedToolRoot));
   }
+
+  let msBuildTargetsPath: string = path.join(cachedToolRoot, advinstMSBuildTargetsSubPath);
+  //Compute the actual AdvancedInstaller.com folder
+  let advinstBinRoot: string = path.join(cachedToolRoot, advinstToolSubPath);
+  //Debug traces
+  taskLib.debug('cachedToolRoot = ' + cachedToolRoot);
+  taskLib.debug('advinstBinRoot = ' + advinstBinRoot);
+  taskLib.debug('msBuildTargetsPath = ' + msBuildTargetsPath);
+
+  //Register advinst if a license key was provided
+  await registerAdvinst(advinstBinRoot, license);
+  //Add the advinst folder to PATH
+  toolLib.prependPath(advinstBinRoot);
+
+  //Set the environment variables that will be used by Advanced Installer tasks later on.
+  taskLib.setVariable(advinstMSBuildTargetsVar, msBuildTargetsPath);
+  taskLib.setVariable(advinstToolRootVar, cachedToolRoot);
 }
 
 async function registerAdvinst(toolRoot: string, license: string): Promise<void> {
@@ -69,7 +76,7 @@ async function registerAdvinst(toolRoot: string, license: string): Promise<void>
   if (execResult.code != 0) {
     throw new Error(taskLib.loc("RegisterToolFailed", execResult.stdout));
   }
-  let licensePath = path.join(taskLib.getVariable('ProgramData'), 'Caphyon\\Advanced Installer\\license80.dat');
+  let licensePath = path.join(taskLib.getVariable('ProgramData'), advinstLicenseSubPath);
   taskLib.checkPath(licensePath, taskLib.loc("AdvinstLicenseFile"));
 }
 
@@ -102,7 +109,7 @@ function _getLocalTool(version: string) {
 }
 
 async function _downloadAdvinst(version: string): Promise<string> {
-  let advinstDownloadUrl : string = taskLib.getVariable(advinstDownloadUrlVar);
+  let advinstDownloadUrl: string = taskLib.getVariable(advinstDownloadUrlVar);
   if (!advinstDownloadUrl)
     advinstDownloadUrl = 'http://www.advancedinstaller.com/downloads/' + version + '/advinst.msi';
 

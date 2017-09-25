@@ -7,7 +7,7 @@
   "version": {
     "Major": 1,
     "Minor": 0,
-    "Patch": 2
+    "Patch": 4
   },
   "category": "Tool",
   "runsOn": [
@@ -59,7 +59,7 @@
     "ExtractTool" : "Extracting Advanced Installer",
     "ExtractToolFailed": "Failed to extract Advanced Installer.",
     "CacheTool": "Caching Advanced Installer tool.",
-    "CacheToolSuccess" : "Successfully Advanced Installer tool. Version %s",
+    "CacheToolSuccess" : "Successfully cached Advanced Installer tool. Version %s",
     "CheckToolCache": "Checking if a cached copy exists for this version...",
     "AgentTempDirAssert" : "Agent.TempDirectory is not set"
   }
