@@ -111,7 +111,7 @@ function _getLocalTool(version: string) {
 async function _downloadAdvinst(version: string): Promise<string> {
   let advinstDownloadUrl: string = taskLib.getVariable(advinstDownloadUrlVar);
   if (!advinstDownloadUrl)
-    advinstDownloadUrl = 'http://www.advancedinstaller.com/downloads/' + version + '/advinst.msi';
+    advinstDownloadUrl = 'https://www.advancedinstaller.com/downloads/' + version + '/advinst.msi';
 
   console.log(taskLib.loc("DownloadTool", advinstDownloadUrl));
   return toolLib.downloadTool(advinstDownloadUrl);

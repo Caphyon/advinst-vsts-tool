@@ -29,3 +29,8 @@ Bugs:
 Bugs:
 * Advanced Installer was not found by subsequent tasks when reused from tools cache.
 
+### Advanced Installer Tool Installer 1.0.5
+
+Bugs:
+* Use HTTPS for Advanced Installer download URL.
+
