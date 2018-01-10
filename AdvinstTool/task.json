@@ -61,6 +61,7 @@
     "CacheTool": "Caching Advanced Installer tool.",
     "CacheToolSuccess" : "Successfully cached Advanced Installer tool. Version %s",
     "CheckToolCache": "Checking if a cached copy exists for this version...",
-    "AgentTempDirAssert" : "Agent.TempDirectory is not set"
+    "AgentTempDirAssert" : "Agent.TempDirectory is not set",
+    "CreateInstallerFolder" : "The c:\\windows\\installer folder is missing. Attempting to create it."
   }
 }

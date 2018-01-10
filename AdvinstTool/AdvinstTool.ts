@@ -120,6 +120,15 @@ async function _downloadAdvinst(version: string): Promise<string> {
 async function _extractAdvinst(sourceMsi: string): Promise<string> {
   console.log(taskLib.loc("ExtractTool"));
 
+  // Ensure the c:\windows\installer folder exists. MSIEXEC will fail on some clients (E.g. Hosted VS2017)
+  // due to the lack of this folder.
+
+  let windowsInstallerFolder = path.join(taskLib.getVariable('windir'), 'Installer');
+  if (!taskLib.exist(windowsInstallerFolder)) {
+    taskLib.debug(taskLib.loc("CreateInstallerFolder"))
+    taskLib.mkdirP(windowsInstallerFolder);
+  }
+  
   let advinstWorkFolder = path.join(_getAgentTemp(), 'AdvancedInstaller');
   let msiExtractionPath: string = path.join(advinstWorkFolder, 'resources');
   // Create the work folder, otherwise msiexec will fail because of the log path.
