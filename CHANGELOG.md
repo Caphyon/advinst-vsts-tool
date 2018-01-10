@@ -34,3 +34,9 @@ Bugs:
 Bugs:
 * Use HTTPS for Advanced Installer download URL.
 
+### Advanced Installer Tool Installer 1.0.6
+
+Bugs:
+* Possible fix for "The Temp folder is on a drive that is full or is inaccessible.
+Free up space on the drive or verify that you have write permission on the Temp folder." error that
+manifests on some hosted machines.
