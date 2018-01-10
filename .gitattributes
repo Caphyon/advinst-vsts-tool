@@ -1,0 +1,14 @@
+# Auto detect text files and perform LF normalization
+* text=auto !eol
+
+/.git* text eol=lf
+
+# Type Script
+*.ts      text eol=crlf
+*.json    text eol=crlf
+*.resjson text eol=crlf
+*.md      text eol=crlf
+*.txt     text eol=crlf
+
+# Images
+*.png  filter=lfs diff=lfs merge=lfs -text
