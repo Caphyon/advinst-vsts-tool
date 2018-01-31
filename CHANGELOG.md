@@ -40,3 +40,8 @@ Bugs:
 * Possible fix for "The Temp folder is on a drive that is full or is inaccessible.
 Free up space on the drive or verify that you have write permission on the Temp folder." error that
 manifests on some hosted machines.
+
+### Advanced Installer Tool Installer 1.0.7
+
+Improvements:
+* Added specific license registration support ( requires [Advanced Installer 14.6](https://www.advancedinstaller.com/version-history.html) ) 
