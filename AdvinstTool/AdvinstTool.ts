@@ -4,16 +4,20 @@ import * as taskCmd from 'vsts-task-lib/taskcommand';
 
 import * as path from 'path';
 import * as semvish from 'semvish';
+import * as cmpVer from 'compare-ver';
+var fileInfo = require('winfileinfo/winfileinfo.node');
 
 const advinstToolId: string = 'advinst';
 const advinstToolArch: string = 'x86';
 const advinstToolSubPath: string = 'bin\\x86';
-const advinstToolExecutable: string = 'AdvancedInstaller.com';
+const advinstToolCmdLineUtility: string = 'AdvancedInstaller.com';
+const advinstToolExecutable: string = 'advinst.exe';
 const advinstMSBuildTargetsVar: string = 'AdvancedInstallerMSBuildTargets';
 const advinstToolRootVar: string = 'AdvancedInstallerRoot';
 const advinstMSBuildTargetsSubPath: string = 'ProgramFilesFolder\\MSBuild\\Caphyon\\Advanced Installer';
 const advinstDownloadUrlVar: string = 'advancedinstaller.url';
 const advinstLicenseSubPath: string = 'Caphyon\\Advanced Installer\\license80.dat';
+const advinstRegVersionSwitch: string = '14.6';
 
 async function run() {
   try {
@@ -72,7 +76,15 @@ async function registerAdvinst(toolRoot: string, license: string): Promise<void>
     return;
 
   console.log(taskLib.loc("RegisterTool"))
-  let execResult = taskLib.execSync(path.join(toolRoot, advinstToolExecutable), ['/register', license]);
+  
+  let toolVersion : string = fileInfo.getFileVersion(path.join(toolRoot, advinstToolExecutable));
+  let registrationCmd : string = "/RegisterCI";
+  if (cmpVer.lt(advinstRegVersionSwitch, toolVersion) < 0)
+  {
+    registrationCmd = "/Register";
+  }
+
+  let execResult = taskLib.execSync(path.join(toolRoot, advinstToolCmdLineUtility), [registrationCmd, license]);
   if (execResult.code != 0) {
     throw new Error(taskLib.loc("RegisterToolFailed", execResult.stdout));
   }

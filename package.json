@@ -4,9 +4,12 @@
   "version": "1.0.0",
   "scripts": {
     "initdev": "npm install",
+    "cleandev": "rimraf ./node_modules",
     "compile": "tsc -project AdvinstTool",
     "clean": "rimraf dist && rimraf ./AdvinstTool/*.js && rimraf ./AdvinstTool/*.js.map",
-    "link": "mkdirp dist/AdvinstTool/node_modules && pushd \"dist/AdvinstTool\" && npm install vsts-task-lib@2.0.7 && npm install vsts-task-tool-lib@0.4.0 && npm install semvish@1.1.0 && popd",
+    "link": "mkdirp ./dist/AdvinstTool/node_modules && npm run link:copy && npm run link:install",
+    "link:copy": "copyfiles ./node_modules/winfileinfo/*.node ./dist/AdvinstTool/",
+    "link:install": "pushd \"dist/AdvinstTool\" && npm install vsts-task-lib@2.0.7 && npm install vsts-task-tool-lib@0.4.0 && npm install semvish@1.1.0 && npm install compare-ver@2.0.2 && popd",
     "content:task": "copyfiles ./AdvinstTool/*.js ./AdvinstTool/task.json ./AdvinstTool/task.loc.json ./AdvinstTool/**/*.resjson ./AdvinstTool/*.png dist",
     "content:vsix": "copyfiles vss-extension*.json *.md license.txt ./images/*.png dist",
     "content:all": "npm run content:task && npm run content:vsix",
@@ -33,7 +36,8 @@
   "dependencies": {
     "vsts-task-lib": "2.0.7",
     "vsts-task-tool-lib": "0.4.0",
-    "semvish": "^1.1.0"
+    "semvish": "^1.1.0",
+    "compare-ver" : "^2.0.2"
   },
   "devDependencies": {
     "@types/node": "^8.0.19",
@@ -41,6 +45,7 @@
     "mkdirp": "^0.5.1",
     "rimraf": "^2.6.1",
     "tfx-cli": "^0.4.9",
-    "typescript": "^2.4.2"
+    "typescript": "^2.4.2",
+    "winfileinfo": "1.0.0"
   }
 }
