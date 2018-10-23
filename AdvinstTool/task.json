@@ -14,7 +14,6 @@
     "Agent",
     "DeploymentGroup"
   ],
-  "preview": "true",
   "satisfies": [
     "AdvancedInstaller"
   ],
