@@ -45,3 +45,12 @@ manifests on some hosted machines.
 
 Improvements:
 * Added specific license registration support ( requires [Advanced Installer 14.6](https://www.advancedinstaller.com/version-history.html) ) 
+
+### Advanced Installer Tool Installer 1.1.0
+
+Improvements:
+* If no version is specified, use latest
+* Removed preview flag
+
+Bugs:
+* Better execution guard for task cleanup.
