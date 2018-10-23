@@ -1,10 +1,10 @@
 import * as taskLib from 'vsts-task-lib/task';
 import * as toolLib from 'vsts-task-tool-lib/tool';
-import * as taskCmd from 'vsts-task-lib/taskcommand';
-
 import * as path from 'path';
 import * as semvish from 'semvish';
 import * as cmpVer from 'compare-ver';
+import * as ini from 'ini-parser';
+import * as fs from 'fs';
 var fileInfo = require('winfileinfo/winfileinfo.node');
 
 const advinstToolId: string = 'advinst';
@@ -28,6 +28,12 @@ async function run() {
     // Retrieve user inputs
     let version: string = taskLib.getInput('advinstVersion', true);
     let license: string = taskLib.getInput('advinstLicense', false);
+
+    if (!version) {
+      version = await _getLatestVersion();
+      taskLib.debug(taskLib.loc("AI_UseLatestVersion", version));
+    }
+
     await getAdvinst(version, license);
   }
   catch (error) {
@@ -156,6 +162,13 @@ async function _extractAdvinst(sourceMsi: string): Promise<string> {
     return '';
   }
   return msiExtractionPath;
+}
+
+async function _getLatestVersion(): Promise<string> {
+  let versionsFile: string = await toolLib.downloadTool('https://www.advancedinstaller.com/downloads/updates.ini');
+  let iniContent = ini.parse(fs.readFileSync(versionsFile, 'utf-8'));
+  let firstSection = iniContent[Object.keys(iniContent)[0]];
+  return firstSection['ProductVersion'];
 }
 
 function _getAgentTemp() {
