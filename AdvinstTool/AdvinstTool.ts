@@ -96,6 +96,7 @@ async function registerAdvinst(toolRoot: string, license: string): Promise<void>
   }
   let licensePath = path.join(taskLib.getVariable('ProgramData'), advinstLicenseSubPath);
   taskLib.checkPath(licensePath, taskLib.loc("AdvinstLicenseFile"));
+  taskLib.setVariable('advinst.cleanup', 'true');
 }
 
 async function acquireAdvinst(version: string): Promise<string> {
