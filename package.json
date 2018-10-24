@@ -48,6 +48,7 @@
     "tfx-cli": "^0.4.9",
     "typescript": "^2.4.2",
     "winfileinfo": "1.0.0",
-    "ini-parser": "^0.0.2"
+    "ini-parser": "^0.0.2",
+    "eol": "^0.9.1"
   }
 }
