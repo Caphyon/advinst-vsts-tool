@@ -6,8 +6,8 @@
   "author": "Caphyon",
   "version": {
     "Major": 1,
-    "Minor": 0,
-    "Patch": 7
+    "Minor": 1,
+    "Patch": 0
   },
   "category": "Tool",
   "runsOn": [
@@ -55,12 +55,12 @@
     "AdvinstLicenseFile": "Advanced Installer license",
     "DownloadTool": "Downloading Advanced Installer. URL: %s",
     "DownloadToolFailed": "Failed to download Advanced Installer.",
-    "ExtractTool" : "Extracting Advanced Installer",
+    "ExtractTool": "Extracting Advanced Installer",
     "ExtractToolFailed": "Failed to extract Advanced Installer.",
     "CacheTool": "Caching Advanced Installer tool.",
-    "CacheToolSuccess" : "Successfully cached Advanced Installer tool. Version %s",
+    "CacheToolSuccess": "Successfully cached Advanced Installer tool. Version %s",
     "CheckToolCache": "Checking if a cached copy exists for this version...",
-    "AgentTempDirAssert" : "Agent.TempDirectory is not set",
-    "CreateInstallerFolder" : "The c:\\windows\\installer folder is missing. Attempting to create it."
+    "AgentTempDirAssert": "Agent.TempDirectory is not set",
+    "CreateInstallerFolder": "The c:\\windows\\installer folder is missing. Attempting to create it."
   }
 }
