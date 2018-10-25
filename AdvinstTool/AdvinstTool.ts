@@ -26,7 +26,7 @@ async function run() {
     if (taskLib.osType() != 'Windows_NT')
       throw new Error(taskLib.loc("UnsupportedOS"));
     // Retrieve user inputs
-    let version: string = taskLib.getInput('advinstVersion', true);
+    let version: string = taskLib.getInput('advinstVersion', false);
     let license: string = taskLib.getInput('advinstLicense', false);
 
     if (!version) {
