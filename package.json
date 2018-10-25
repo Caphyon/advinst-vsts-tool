@@ -35,9 +35,9 @@
   },
   "homepage": "https://github.com/caphyon/advinst-vsts-tool#readme",
   "dependencies": {
+    "azure-pipelines-task-lib": "^2.7.0",
     "compare-ver": "^2.0.2",
     "semvish": "^1.1.0",
-    "vsts-task-lib": "^2.7.0",
     "vsts-task-tool-lib": "^0.10.0"
   },
   "devDependencies": {
