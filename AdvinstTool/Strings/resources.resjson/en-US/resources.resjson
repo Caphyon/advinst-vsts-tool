@@ -21,5 +21,8 @@
   "loc.messages.CacheToolSuccess": "Successfully cached Advanced Installer tool. Version %s",
   "loc.messages.CheckToolCache": "Checking if a cached copy exists for this version...",
   "loc.messages.AgentTempDirAssert": "Agent.TempDirectory is not set",
-  "loc.messages.CreateInstallerFolder": "The c:\\windows\\installer folder is missing. Attempting to create it."
+  "loc.messages.CreateInstallerFolder": "The c:\\windows\\installer folder is missing. Attempting to create it.",
+  "loc.messages.UseLatestVersion": "No version was specifyed. Using newest.",
+  "loc.messages.StartCom": "Starting Advanced Installer COM server.",
+  "loc.messages.StartComFailed": "Failed to start Advanced Installer COM server. Error: %s"
 }

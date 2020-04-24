@@ -6,7 +6,7 @@
   "author": "Caphyon",
   "version": {
     "Major": 1,
-    "Minor": 1,
+    "Minor": 2,
     "Patch": 0
   },
   "category": "Tool",
@@ -33,6 +33,14 @@
       "label": "License Key",
       "required": false,
       "helpMarkDown": "Advanced Installer license that will be used for registration."
+    },
+    {
+      "name": "advinstStartCOM",
+      "type": "boolean",
+      "label": "Enable PowerShell Automation",
+      "required": false,
+      "defaultValue": true,
+      "helpMarkDown": "Configure your Advanced Installer project by using custom interfaces and PowerShell commands."
     }
   ],
   "execution": {
@@ -61,6 +69,9 @@
     "CacheToolSuccess": "Successfully cached Advanced Installer tool. Version %s",
     "CheckToolCache": "Checking if a cached copy exists for this version...",
     "AgentTempDirAssert": "Agent.TempDirectory is not set",
-    "CreateInstallerFolder": "The c:\\windows\\installer folder is missing. Attempting to create it."
+    "CreateInstallerFolder": "The c:\\windows\\installer folder is missing. Attempting to create it.",
+    "UseLatestVersion": "No version was specifyed. Using newest.",
+    "StartCom": "Starting Advanced Installer COM server.",
+    "StartComFailed": "Failed to start Advanced Installer COM server. Error: %s"
   }
 }

@@ -54,3 +54,8 @@ Improvements:
 
 Bugs:
 * Better execution guard for task cleanup.
+
+### Advanced Installer Tool Installer 1.2.0
+
+Improvements:
+* Enable PowerShell automation

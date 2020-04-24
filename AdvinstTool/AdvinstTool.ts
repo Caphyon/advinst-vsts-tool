@@ -27,21 +27,22 @@ async function run() {
       throw new Error(taskLib.loc("UnsupportedOS"));
     // Retrieve user inputs
     let version: string = taskLib.getInput('advinstVersion', false);
-    let license: string = taskLib.getInput('advinstLicense', false);
+    const license: string = taskLib.getInput('advinstLicense', false);
+    const startCOM = taskLib.getBoolInput('advinstStartCOM', true);
 
     if (!version) {
       version = await _getLatestVersion();
-      taskLib.debug(taskLib.loc("AI_UseLatestVersion", version));
+      taskLib.debug(taskLib.loc("UseLatestVersion", version));
     }
 
-    await getAdvinst(version, license);
+    await getAdvinst(version, license, startCOM);
   }
   catch (error) {
     taskLib.setResult(taskLib.TaskResult.Failed, error.message);
   }
 }
 
-async function getAdvinst(version: string, license: string): Promise<void> {
+async function getAdvinst(version: string, license: string, startCOM: boolean): Promise<void> {
 
   if (!semvish.valid(version))
     throw Error(taskLib.loc("InvalidVersionFormat", version));
@@ -69,6 +70,11 @@ async function getAdvinst(version: string, license: string): Promise<void> {
 
   //Register advinst if a license key was provided
   await registerAdvinst(advinstBinRoot, license);
+  //Start the COM server
+  if (startCOM) {
+    await startComServer(advinstBinRoot);
+  }
+
   //Add the advinst folder to PATH
   toolLib.prependPath(advinstBinRoot);
 
@@ -82,11 +88,10 @@ async function registerAdvinst(toolRoot: string, license: string): Promise<void>
     return;
 
   console.log(taskLib.loc("RegisterTool"))
-  
-  let toolVersion : string = fileInfo.getFileVersion(path.join(toolRoot, advinstToolExecutable));
-  let registrationCmd : string = "/RegisterCI";
-  if (cmpVer.lt(advinstRegVersionSwitch, toolVersion) < 0)
-  {
+
+  let toolVersion: string = fileInfo.getFileVersion(path.join(toolRoot, advinstToolExecutable));
+  let registrationCmd: string = "/RegisterCI";
+  if (cmpVer.lt(advinstRegVersionSwitch, toolVersion) < 0) {
     registrationCmd = "/Register";
   }
 
@@ -97,6 +102,16 @@ async function registerAdvinst(toolRoot: string, license: string): Promise<void>
   let licensePath = path.join(taskLib.getVariable('ProgramData'), advinstLicenseSubPath);
   taskLib.checkPath(licensePath, taskLib.loc("AdvinstLicenseFile"));
   taskLib.setVariable('advinst.cleanup', 'true');
+}
+
+async function startComServer(toolRoot: string): Promise<void> {
+  console.log(taskLib.loc("StartCom"));
+
+  const toolPath = path.join(toolRoot, advinstToolExecutable);
+  let execResult = taskLib.execSync(path.join(toolRoot, advinstToolCmdLineUtility), ['/REGSERVER']);
+  if (execResult.code != 0) {
+    throw new Error(taskLib.loc("StartComFailed", execResult.stdout));
+  }
 }
 
 async function acquireAdvinst(version: string): Promise<string> {
@@ -147,7 +162,7 @@ async function _extractAdvinst(sourceMsi: string): Promise<string> {
     taskLib.debug(taskLib.loc("CreateInstallerFolder"))
     taskLib.mkdirP(windowsInstallerFolder);
   }
-  
+
   let advinstWorkFolder = path.join(_getAgentTemp(), 'AdvancedInstaller');
   let msiExtractionPath: string = path.join(advinstWorkFolder, 'resources');
   // Create the work folder, otherwise msiexec will fail because of the log path.
