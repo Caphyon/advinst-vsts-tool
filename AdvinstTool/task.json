@@ -35,7 +35,7 @@
       "helpMarkDown": "Advanced Installer license that will be used for registration."
     },
     {
-      "name": "advinstStartCOM",
+      "name": "advinstEnableCom",
       "type": "boolean",
       "label": "Enable PowerShell Automation",
       "required": false,

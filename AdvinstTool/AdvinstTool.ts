@@ -28,7 +28,7 @@ async function run() {
     // Retrieve user inputs
     let version: string = taskLib.getInput('advinstVersion', false);
     const license: string = taskLib.getInput('advinstLicense', false);
-    const startCOM = taskLib.getBoolInput('advinstStartCOM', true);
+    const startCOM = taskLib.getBoolInput('advinstEnableCom', true);
 
     if (!version) {
       version = await _getLatestVersion();
