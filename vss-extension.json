@@ -14,15 +14,11 @@
   ],
   "targets": [
     {
-      "id": "Microsoft.VisualStudio.Services.Cloud"
-    },
-    {
-      "id": "Microsoft.TeamFoundation.Server",
-      "version": "[16.0,)"
+      "id": "Microsoft.VisualStudio.Services"
     }
   ],
   "categories": [
-    "Build and release"
+    "Azure Pipelines"
   ],
   "branding": {
     "color": "rgb(239, 237, 233)",
