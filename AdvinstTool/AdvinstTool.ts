@@ -18,6 +18,7 @@ const advinstMSBuildTargetsSubPath: string = 'ProgramFilesFolder\\MSBuild\\Caphy
 const advinstDownloadUrlVar: string = 'advancedinstaller.url';
 const advinstLicenseSubPath: string = 'Caphyon\\Advanced Installer\\license80.dat';
 const advinstRegVersionSwitch: string = '14.6';
+const advinstPsAutomationVersion = "16.1";
 
 async function run() {
   try {
@@ -89,7 +90,7 @@ async function registerAdvinst(toolRoot: string, license: string): Promise<void>
 
   console.log(taskLib.loc("RegisterTool"))
 
-  let toolVersion: string = fileInfo.getFileVersion(path.join(toolRoot, advinstToolExecutable));
+  const toolVersion: string = fileInfo.getFileVersion(path.join(toolRoot, advinstToolExecutable));
   let registrationCmd: string = "/RegisterCI";
   if (cmpVer.lt(advinstRegVersionSwitch, toolVersion) < 0) {
     registrationCmd = "/Register";
@@ -105,9 +106,13 @@ async function registerAdvinst(toolRoot: string, license: string): Promise<void>
 }
 
 async function startComServer(toolRoot: string): Promise<void> {
-  console.log(taskLib.loc("StartCom"));
+  const toolVersion: string = fileInfo.getFileVersion(path.join(toolRoot, advinstToolExecutable));
+  if (cmpVer.lt(toolVersion, advinstPsAutomationVersion) > 0) {
+    console.log(taskLib.loc("InvalidComVersion", toolVersion));
+    return;
+  }
 
-  const toolPath = path.join(toolRoot, advinstToolExecutable);
+  console.log(taskLib.loc("StartCom"));
   let execResult = taskLib.execSync(path.join(toolRoot, advinstToolCmdLineUtility), ['/REGSERVER']);
   if (execResult.code != 0) {
     throw new Error(taskLib.loc("StartComFailed", execResult.stdout));

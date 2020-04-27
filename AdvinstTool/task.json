@@ -7,7 +7,7 @@
   "version": {
     "Major": 1,
     "Minor": 2,
-    "Patch": 0
+    "Patch": 1
   },
   "category": "Tool",
   "runsOn": [
@@ -41,6 +41,8 @@
       "required": false,
       "defaultValue": true,
       "helpMarkDown": "Configure your Advanced Installer project by using custom interfaces and PowerShell commands."
+      "defaultValue": false,
+      "helpMarkDown": "Configure your Advanced Installer project by using custom interfaces and PowerShell commands. This capability needs Advanced INstaller 16.1 or higher."
     }
   ],
   "execution": {
@@ -72,6 +74,7 @@
     "CreateInstallerFolder": "The c:\\windows\\installer folder is missing. Attempting to create it.",
     "UseLatestVersion": "No version was specifyed. Using newest.",
     "StartCom": "Starting Advanced Installer COM server.",
-    "StartComFailed": "Failed to start Advanced Installer COM server. Error: %s"
+    "StartComFailed": "Failed to start Advanced Installer COM server. Error: %s",
+    "InvalidComVersion": "Skipping PowerShellAutomation. Unsupported Advanced Installer version: %s"
   }
 }

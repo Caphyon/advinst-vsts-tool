@@ -24,5 +24,6 @@
   "loc.messages.CreateInstallerFolder": "The c:\\windows\\installer folder is missing. Attempting to create it.",
   "loc.messages.UseLatestVersion": "No version was specifyed. Using newest.",
   "loc.messages.StartCom": "Starting Advanced Installer COM server.",
-  "loc.messages.StartComFailed": "Failed to start Advanced Installer COM server. Error: %s"
+  "loc.messages.StartComFailed": "Failed to start Advanced Installer COM server. Error: %s",
+  "loc.messages.InvalidComVersion": "Skipping PowerShellAutomation. Unsupported Advanced Installer version: %s"
 }

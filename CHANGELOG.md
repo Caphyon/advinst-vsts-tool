@@ -44,7 +44,7 @@ manifests on some hosted machines.
 ### Advanced Installer Tool Installer 1.0.7
 
 Improvements:
-* Added specific license registration support ( requires [Advanced Installer 14.6](https://www.advancedinstaller.com/version-history.html) ) 
+* Added specific license registration support ( requires [Advanced Installer 14.6](https://www.advancedinstaller.com/version-history.html) )
 
 ### Advanced Installer Tool Installer 1.1.0
 
@@ -59,3 +59,8 @@ Bugs:
 
 Improvements:
 * Enable PowerShell automation
+
+### Advanced Installer Tool Installer 1.2.0
+
+Bugs:
+* Skip PowerShell automation for older Advanced Installer versions
