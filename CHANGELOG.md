@@ -60,7 +60,12 @@ Bugs:
 Improvements:
 * Enable PowerShell automation
 
-### Advanced Installer Tool Installer 1.2.0
+### Advanced Installer Tool Installer 1.2.1
 
 Bugs:
 * Skip PowerShell automation for older Advanced Installer versions
+
+### Advanced Installer Tool Installer 1.2.2
+
+Bugs:
+* *Postjobexecution* script will *not fail* on an unsupported agent OS
