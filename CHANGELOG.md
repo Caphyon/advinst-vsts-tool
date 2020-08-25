@@ -69,3 +69,8 @@ Bugs:
 
 Bugs:
 * *Postjobexecution* script will *not fail* on an unsupported agent OS
+
+### Advanced Installer Tool Installer 1.2.3
+
+Bugs:
+* Pipeline hangs when the Advanced Installer extraction folder contains spaces
