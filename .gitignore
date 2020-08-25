@@ -10,3 +10,4 @@ node_modules/
 npm-debug.log
 
 AdvinstTool/*.js*
+package-lock.json
