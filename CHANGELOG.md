@@ -74,3 +74,8 @@ Bugs:
 
 Bugs:
 * Pipeline hangs when the Advanced Installer extraction folder contains spaces
+
+### Advanced Installer Tool Installer 1.2.4
+
+Improvements:
+* Disable task cleanup by setting variable _*advancedinstalle.cleanup = false*_
