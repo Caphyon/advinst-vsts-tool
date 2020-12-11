@@ -78,4 +78,4 @@ Bugs:
 ### Advanced Installer Tool Installer 1.2.4
 
 Improvements:
-* Disable task cleanup by setting variable _*advancedinstalle.cleanup = false*_
+* Disable task cleanup by setting variable _**advancedinstaller.cleanup = false**_
