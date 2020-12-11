@@ -25,5 +25,6 @@
   "loc.messages.UseLatestVersion": "No version was specifyed. Using newest.",
   "loc.messages.StartCom": "Starting Advanced Installer COM server.",
   "loc.messages.StartComFailed": "Failed to start Advanced Installer COM server. Error: %s",
-  "loc.messages.InvalidComVersion": "Skipping PowerShellAutomation. Unsupported Advanced Installer version: %s"
+  "loc.messages.InvalidComVersion": "Skipping PowerShellAutomation. Unsupported Advanced Installer version: %s",
+  "loc.messages.CleanupDisabled": "Skipping cleanup because it was disabled: advancedinstaller.cleanup = %s"
 }
