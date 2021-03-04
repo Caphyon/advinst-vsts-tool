@@ -13,3 +13,12 @@ This installer task should be used when building a solution that contains a [Vis
 ![Add Tool](images/tool-add.png)
 
 ![Configure Tool](images/tool-configure.png)
+
+
+# Tutorials
+
+Check them out:
+* [How-To: Build an Advanced Installer Visual Studio Project from Azure DevOps](https://www.advancedinstaller.com/visual-studio-project-from-azure-devops-pipeline.html)
+* [Automation x2: How to automate Azure DevOps pipelines with Advanced Installer PowerShell automation](https://www.advancedinstaller.com/azure-devops-pipeline-powershell-automation.html)
+* [How to: Choose Which Advanced Installer Azure DevOps Task You Need?](https://www.advancedinstaller.com/azure-devops-tasks.html)
+* [How to configure digital signing in Advanced Installer Azure DevOps Task](https://www.advancedinstaller.com/azure-devops-configure-digital-signature.html)
