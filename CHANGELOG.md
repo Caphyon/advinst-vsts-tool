@@ -79,3 +79,8 @@ Bugs:
 
 Improvements:
 * Disable task cleanup by setting variable _**advancedinstaller.cleanup = false**_
+
+### Advanced Installer Tool Installer 1.2.5
+
+Improvements:
+* Migrate task to Node10 to avoid deprecation warning. Details [here](https://github.com/microsoft/azure-pipelines-tasks/blob/master/docs/migrateNode10.md).
