@@ -11,7 +11,6 @@ const advinstToolId: string = 'advinst';
 const advinstToolArch: string = 'x86';
 const advinstToolSubPath: string = 'bin\\x86';
 const advinstToolCmdLineUtility: string = 'AdvancedInstaller.com';
-const advinstToolExecutable: string = 'advinst.exe';
 const advinstMSBuildTargetsVar: string = 'AdvancedInstallerMSBuildTargets';
 const advinstToolRootVar: string = 'AdvancedInstallerRoot';
 const advinstMSBuildTargetsSubPath: string = 'ProgramFilesFolder\\MSBuild\\Caphyon\\Advanced Installer';
@@ -95,7 +94,7 @@ async function registerAdvinst(toolRoot: string, license: string): Promise<void>
 
   console.log(taskLib.loc("RegisterTool"))
 
-  const toolVersion: string = _getAdvinstToolVersion(path.join(toolRoot, advinstToolExecutable));
+  const toolVersion: string = _getAdvinstToolVersion(path.join(toolRoot, advinstToolCmdLineUtility));
   let registrationCmd: string = "/RegisterCI";
   if (cmpVer.lt(advinstRegVersionSwitch, toolVersion) < 0) {
     registrationCmd = "/Register";
@@ -111,7 +110,7 @@ async function registerAdvinst(toolRoot: string, license: string): Promise<void>
 }
 
 async function startComServer(toolRoot: string): Promise<void> {
-  const toolVersion: string = _getAdvinstToolVersion(path.join(toolRoot, advinstToolExecutable));
+  const toolVersion: string = _getAdvinstToolVersion(path.join(toolRoot, advinstToolCmdLineUtility));
   if (cmpVer.lt(toolVersion, advinstPsAutomationVersion) > 0) {
     console.log(taskLib.loc("InvalidComVersion", toolVersion));
     return;
