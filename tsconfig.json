@@ -2,6 +2,8 @@
   "compilerOptions": {
     "target": "ES6",
     "module": "commonjs",
-    "sourceMap": true
+    "sourceMap": false,
+    "rootDir": "./tool",
+    "outDir": "./dist/tool"
   }
 }
