@@ -26,5 +26,6 @@
   "loc.messages.StartCom": "Starting Advanced Installer COM server.",
   "loc.messages.StartComFailed": "Failed to start Advanced Installer COM server. Error: %s",
   "loc.messages.InvalidComVersion": "Skipping PowerShellAutomation. Unsupported Advanced Installer version: %s",
-  "loc.messages.CleanupDisabled": "Skipping cleanup because it was disabled: advancedinstaller.cleanup = %s"
+  "loc.messages.CleanupDisabled": "Skipping cleanup because it was disabled: advancedinstaller.cleanup = %s",
+  "loc.message.AI_WarningInvalidConfigVersion": "We want to provide the best experience for you and support the newest Advanced Installer features. To do so, we will no longer be supporting older versions of the software in the near future. Please note that the minimum required version is %s and the configured version is %s."
 }
