@@ -15,7 +15,7 @@
     "content:all": "npm run content:task && npm run content:vsix",
     "build": "npm run clean && npm run compile && npm run content:all && npm run link",
     "vsix:release": "tfx extension create --root dist --output-path dist --override {\\\"public\\\":true}",
-    "vsix:preview": "tfx extension create --extension-id AdvancedInstallerTool-Preview --root dist --output-path dist --override {\\\"name\\\":\\\"Preview Advanced Installer Tool Installer\\\", \\\"publisher\\\":\\\"caphyon-test\\\"} --rev-version",
+    "vsix:preview": "tfx extension create --extension-id AdvancedInstallerTool-Preview --root dist --output-path dist --override {\\\"name\\\":\\\"Preview Advanced Installer Tool Installer\\\", \\\"publisher\\\":\\\"caphyon-test\\\"}",
     "package:release": "npm run build && npm run vsix:release",
     "package:preview": "npm run build && npm run vsix:preview",
     "version": "node ./scripts/version.js"

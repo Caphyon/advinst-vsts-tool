@@ -33,7 +33,7 @@ function updateVsixManifest(version) {
 }
 
 function updateTask(version) {
-  const taskFile = path.join(__dirname, '..', 'AdvinstTool', 'task.json');
+  const taskFile = path.join(__dirname, '..', 'tool', 'task.json');
   const fileContent = fs.readFileSync(taskFile, 'utf-8');
   var json = JSON.parse(fileContent);
   json.version.Major = semver.major(version);
