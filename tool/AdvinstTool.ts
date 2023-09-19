@@ -35,7 +35,8 @@ async function run() {
       taskLib.debug(taskLib.loc("UseLatestVersion", version));
     }
 
-    const minAllowedVer = _getMinAllowedAdvinstVersion();
+    const minAllowedVer = await _getMinAllowedAdvinstVersion();
+    taskLib.debug('minAllowedVer = ' + minAllowedVer);
     if (cmpVer.lt(version, minAllowedVer) === 1){
       taskLib.warning(taskLib.loc("AI_WarningInvalidConfigVersion",  minAllowedVer, version));
     }
