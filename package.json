@@ -5,17 +5,17 @@
   "scripts": {
     "initdev": "npm install",
     "cleandev": "rimraf ./node_modules",
-    "compile": "tsc -project AdvinstTool",
-    "clean": "rimraf dist && rimraf ./AdvinstTool/*.js && rimraf ./AdvinstTool/*.js.map",
-    "link": "mkdirp ./dist/AdvinstTool/node_modules && npm run link:install && npm run link:copy",
-    "link:copy": "copyfiles ./node_modules/winfileinfo/*.node ./dist/AdvinstTool/",
-    "link:install": "pushd \"dist/AdvinstTool\" && npm install azure-pipelines-task-lib@3.1.10 && npm install azure-pipelines-tool-lib@0.13.3 && npm install semvish@1.1.0 && npm install compare-ver@2.0.2 && npm install ini-parser@0.0.2 && popd",
-    "content:task": "copyfiles ./AdvinstTool/*.js ./AdvinstTool/task.json ./AdvinstTool/task.loc.json ./AdvinstTool/**/*.resjson ./AdvinstTool/*.png dist",
+    "compile": "tsc",
+    "clean": "rimraf dist",
+    "link": "mkdirp ./dist/tool/node_modules && npm run link:install && npm run link:clean",
+    "link:install": "pushd \"dist/tool\" && npm install azure-pipelines-task-lib@4.5.0 && npm install azure-pipelines-tool-lib@2.0.4 && npm install semvish@1.1.0 && npm install compare-ver@2.0.2 && npm install ini-parser@0.0.2 && popd",
+    "link:clean": "rimraf ./dist/tool/package.json && rimraf ./dist/tool/package-lock.json",
+    "content:task": "copyfiles ./tool/task.json ./tool/task.loc.json ./tool/**/*.resjson ./tool/*.png dist",
     "content:vsix": "copyfiles vss-extension*.json *.md license.txt ./images/*.png dist",
     "content:all": "npm run content:task && npm run content:vsix",
     "build": "npm run clean && npm run compile && npm run content:all && npm run link",
     "vsix:release": "tfx extension create --root dist --output-path dist --override {\\\"public\\\":true}",
-    "vsix:preview": "tfx extension create --extension-id AdvancedInstallerTool-Preview --root dist --output-path dist --override {\\\"name\\\":\\\"Preview Advanced Installer Tool Installer\\\", \\\"publisher\\\":\\\"caphyon-test\\\"} --rev-version",
+    "vsix:preview": "tfx extension create --extension-id AdvancedInstallerTool-Preview --root dist --output-path dist --override {\\\"name\\\":\\\"Preview Advanced Installer Tool Installer\\\", \\\"publisher\\\":\\\"caphyon-test\\\"}",
     "package:release": "npm run build && npm run vsix:release",
     "package:preview": "npm run build && npm run vsix:preview",
     "version": "node ./scripts/version.js"
@@ -35,21 +35,19 @@
   },
   "homepage": "https://github.com/caphyon/advinst-vsts-tool#readme",
   "dependencies": {
-    "azure-pipelines-task-lib": "3.1.10",
-    "azure-pipelines-tool-lib": "0.13.3",
+    "azure-pipelines-task-lib": "4.5.0",
+    "azure-pipelines-tool-lib": "2.0.4",
     "compare-ver": "2.0.2",
-    "node-gyp": "^7.1.0",
+    "ini-parser": "0.0.2",
     "semvish": "1.1.0"
   },
   "devDependencies": {
     "@types/node": "14.0.1",
     "copyfiles": "2.2.0",
     "eol": "^0.9.1",
-    "ini-parser": "^0.0.2",
     "mkdirp": "1.0.4",
     "rimraf": "3.0.2",
     "tfx-cli": "^0.7.11",
-    "typescript": "^4.0.0",
-    "winfileinfo": "1.0.2"
+    "typescript": "^4.0.0"
   }
 }

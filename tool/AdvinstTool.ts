@@ -5,13 +5,12 @@ import * as semvish from 'semvish';
 import * as cmpVer from 'compare-ver';
 import * as ini from 'ini-parser';
 import * as fs from 'fs';
-var fileInfo = require('winfileinfo/winfileinfo.node');
+import { Writable } from 'stream';
 
 const advinstToolId: string = 'advinst';
 const advinstToolArch: string = 'x86';
 const advinstToolSubPath: string = 'bin\\x86';
 const advinstToolCmdLineUtility: string = 'AdvancedInstaller.com';
-const advinstToolExecutable: string = 'advinst.exe';
 const advinstMSBuildTargetsVar: string = 'AdvancedInstallerMSBuildTargets';
 const advinstToolRootVar: string = 'AdvancedInstallerRoot';
 const advinstMSBuildTargetsSubPath: string = 'ProgramFilesFolder\\MSBuild\\Caphyon\\Advanced Installer';
@@ -34,6 +33,12 @@ async function run() {
     if (!version) {
       version = await _getLatestVersion();
       taskLib.debug(taskLib.loc("UseLatestVersion", version));
+    }
+
+    const minAllowedVer = await _getMinAllowedAdvinstVersion();
+    taskLib.debug('minAllowedVer = ' + minAllowedVer);
+    if (cmpVer.lt(version, minAllowedVer) === 1){
+      taskLib.warning(taskLib.loc("AI_WarningInvalidConfigVersion",  minAllowedVer, version));
     }
 
     await getAdvinst(version, license, startCOM);
@@ -90,7 +95,7 @@ async function registerAdvinst(toolRoot: string, license: string): Promise<void>
 
   console.log(taskLib.loc("RegisterTool"))
 
-  const toolVersion: string = fileInfo.getFileVersion(path.join(toolRoot, advinstToolExecutable));
+  const toolVersion: string = _getAdvinstToolVersion(path.join(toolRoot, advinstToolCmdLineUtility));
   let registrationCmd: string = "/RegisterCI";
   if (cmpVer.lt(advinstRegVersionSwitch, toolVersion) < 0) {
     registrationCmd = "/Register";
@@ -106,7 +111,7 @@ async function registerAdvinst(toolRoot: string, license: string): Promise<void>
 }
 
 async function startComServer(toolRoot: string): Promise<void> {
-  const toolVersion: string = fileInfo.getFileVersion(path.join(toolRoot, advinstToolExecutable));
+  const toolVersion: string = _getAdvinstToolVersion(path.join(toolRoot, advinstToolCmdLineUtility));
   if (cmpVer.lt(toolVersion, advinstPsAutomationVersion) > 0) {
     console.log(taskLib.loc("InvalidComVersion", toolVersion));
     return;
@@ -204,6 +209,37 @@ function _getAgentTemp() {
     throw new Error(taskLib.loc("AgentTempDirAssert"));
   }
   return tempDirectory;
+}
+
+function _getAdvinstToolVersion(path: string): string {
+  let stream = new Writable();
+  const result = taskLib.execSync(path, ["/help"], { silent: true, outStream: stream });
+  const l = result.stdout.split("\r\n")[0];
+  const re = new RegExp(/\d+(\.\d+)+/);
+  return l.match(re)[0];
+}
+
+async function _getMinAllowedAdvinstVersion(): Promise<string | null> {
+  const RELEASE_INTERVAL_MONTHS = 24;
+
+  const minReleaseDate = new Date();
+  minReleaseDate.setMonth(minReleaseDate.getMonth() - RELEASE_INTERVAL_MONTHS);
+
+  const versionsFile: string = await toolLib.downloadTool(
+    "https://www.advancedinstaller.com/downloads/updates.ini"
+  );
+  const iniContent = ini.parse(fs.readFileSync(versionsFile, "utf-8"));
+  const r = Object.entries(iniContent).find(([k, v]) => {
+    const [day, month, year] = (v as any).ReleaseDate.split("/");
+    const releaseDate = new Date(`${year}-${month}-${day}`);
+    return minReleaseDate > releaseDate;
+  });
+
+  if (!r) {
+    return null;
+  }
+
+  return (r[1] as any).ProductVersion;
 }
 
 run();

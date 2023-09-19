@@ -84,3 +84,7 @@ Improvements:
 
 Improvements:
 * Migrate task to Node10 to avoid deprecation warning. Details [here](https://github.com/microsoft/azure-pipelines-tasks/blob/master/docs/migrateNode10.md).
+
+### Advanced Installer Tool Installer 1.2.6
+
+* Added deprecation warning for versions of Advanced Installer that are more than two years old. Please check the [release history](https://www.advancedinstaller.com/version-history.html) to pick a compatible version.

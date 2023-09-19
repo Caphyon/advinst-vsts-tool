@@ -2,7 +2,7 @@
   "id": "AdvancedInstallerTool",
   "publisher": "Caphyon",
   "name": "Advanced Installer Tool Installer",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Acquires a specific version of Advanced Installer from internet or the tools cache and adds it to the PATH.",
   "tags": [
     "build",
@@ -37,7 +37,7 @@
   },
   "files": [
     {
-      "path": "AdvinstTool"
+      "path": "tool"
     },
     {
       "path": "images",
@@ -81,7 +81,7 @@
         "ms.vss-distributed-task.tasks"
       ],
       "properties": {
-        "name": "AdvinstTool"
+        "name": "tool"
       }
     }
   ]
