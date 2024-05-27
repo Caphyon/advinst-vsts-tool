@@ -3,7 +3,7 @@
     "target": "ES6",
     "module": "commonjs",
     "sourceMap": false,
-    "rootDir": "./tool",
-    "outDir": "./dist/tool"
+    "rootDir": "./src",
+    "outDir": "./dist"
   }
 }

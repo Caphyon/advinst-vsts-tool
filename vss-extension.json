@@ -2,7 +2,7 @@
   "id": "AdvancedInstallerTool",
   "publisher": "Caphyon",
   "name": "Advanced Installer Tool Installer",
-  "version": "1.2.6",
+  "version": "2.0.1",
   "description": "Acquires a specific version of Advanced Installer from internet or the tools cache and adds it to the PATH.",
   "tags": [
     "build",
@@ -37,10 +37,27 @@
   },
   "files": [
     {
-      "path": "tool"
+      "path": "dist/v1",
+      "packagePath": "tool/v1"
+    },
+    {
+      "path": "dist/v2",
+      "packagePath": "tool/v2"
     },
     {
       "path": "images",
+      "addressable": true
+    },
+    {
+      "path": "README.md",
+      "addressable": true
+    },
+    {
+      "path": "LICENSE.txt",
+      "addressable": true
+    },
+    {
+      "path": "CHANGELOG.md",
       "addressable": true
     }
   ],
