@@ -3,7 +3,7 @@ import * as toolLib from 'azure-pipelines-tool-lib/tool';
 import * as path from 'path';
 import * as semvish from 'semvish';
 import * as cmpVer from 'compare-ver';
-import * as ini from 'ini-parser';
+import { ConfigIniParser } from 'config-ini-parser';
 import * as fs from 'fs';
 import { Writable } from 'stream';
 
@@ -196,12 +196,13 @@ async function _extractAdvinst(sourceMsi: string): Promise<string> {
 }
 
 async function _getLatestVersion(): Promise<string> {
-  let versionsFile: string = await toolLib.downloadTool('https://www.advancedinstaller.com/downloads/updates.ini');
-  let iniContent = ini.parse(fs.readFileSync(versionsFile, 'utf-8'));
-  let firstSection = iniContent[Object.keys(iniContent)[0]];
-  return firstSection['ProductVersion'];
+  const versionsFile: string = await toolLib.downloadTool(
+    'https://www.advancedinstaller.com/downloads/updates.ini'
+  );
+  const iniParser = new ConfigIniParser();
+  const ini = iniParser.parse(fs.readFileSync(versionsFile, 'utf-8'));
+  return ini.get(ini.sections()[0], 'ProductVersion') as string;
 }
-
 function _getAgentTemp() {
   taskLib.assertAgent('2.115.0');
   let tempDirectory = taskLib.getVariable('Agent.TempDirectory');
@@ -226,20 +227,21 @@ async function _getMinAllowedAdvinstVersion(): Promise<string | null> {
   minReleaseDate.setMonth(minReleaseDate.getMonth() - RELEASE_INTERVAL_MONTHS);
 
   const versionsFile: string = await toolLib.downloadTool(
-    "https://www.advancedinstaller.com/downloads/updates.ini"
+    'https://www.advancedinstaller.com/downloads/updates.ini'
   );
-  const iniContent = ini.parse(fs.readFileSync(versionsFile, "utf-8"));
-  const r = Object.entries(iniContent).find(([k, v]) => {
-    const [day, month, year] = (v as any).ReleaseDate.split("/");
-    const releaseDate = new Date(`${year}-${month}-${day}`);
-    return minReleaseDate > releaseDate;
+  const iniParser = new ConfigIniParser();
+  const ini = iniParser.parse(fs.readFileSync(versionsFile, 'utf-8'));
+  const r = ini.sections().find(s => {
+    const releaseDate = ini.get(s, 'ReleaseDate');
+    const [day, month, year] = releaseDate.split('/');
+    return minReleaseDate > new Date(`${year}-${month}-${day}`);
   });
 
   if (!r) {
     return null;
   }
 
-  return (r[1] as any).ProductVersion;
+  return ini.get(r, 'ProductVersion') as string;
 }
 
 run();
