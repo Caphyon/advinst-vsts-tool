@@ -2,7 +2,7 @@
   "id": "AdvancedInstallerTool",
   "publisher": "Caphyon",
   "name": "Advanced Installer Tool Installer",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Acquires a specific version of Advanced Installer from internet or the tools cache and adds it to the PATH.",
   "tags": [
     "build",

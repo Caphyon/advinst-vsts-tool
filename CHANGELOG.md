@@ -89,6 +89,6 @@ Improvements:
 
 * Added deprecation warning for versions of Advanced Installer that are more than two years old. Please check the [release history](https://www.advancedinstaller.com/version-history.html) to pick a compatible version.
 
-### Advanced Installer Tool Installer 1.2.6
+### Advanced Installer Tool Installer 1.2.7
 
-* Added deprecation warning for versions of Advanced Installer that are more than two years old. Please check the [release history](https://www.advancedinstaller.com/version-history.html) to pick a compatible version.
+* Update target NodeJs versions in order to avoid pipeline deprecation warnings.

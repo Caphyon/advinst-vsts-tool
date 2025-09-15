@@ -7,7 +7,7 @@
   "version": {
     "Major": 1,
     "Minor": 2,
-    "Patch": 6
+    "Patch": 7
   },
   "category": "Tool",
   "runsOn": [
@@ -44,12 +44,25 @@
     }
   ],
   "execution": {
-    "Node10": {
+    "Node16": {
+      "target": "main.js"
+    },
+    "Node20": {
+      "target": "main.js"
+    },
+     "Node20_1": {
       "target": "main.js"
     }
+
   },
   "postjobexecution": {
-    "Node10": {
+    "Node16": {
+      "target": "post.js"
+    },
+    "Node20": {
+      "target": "post.js"
+    },
+    "Node20_1": {
       "target": "post.js"
     }
   },
