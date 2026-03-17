@@ -11,3 +11,5 @@ npm-debug.log
 
 AdvinstTool/*.js*
 package-lock.json
+
+/_agent/
