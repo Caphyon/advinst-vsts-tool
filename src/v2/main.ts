@@ -15,6 +15,7 @@ const advinstMSBuildTargetsVar: string = 'AdvancedInstallerMSBuildTargets';
 const advinstToolRootVar: string = 'AdvancedInstallerRoot';
 const advinstMSBuildTargetsSubPath: string = 'ProgramFilesFolder\\MSBuild\\Caphyon\\Advanced Installer';
 const advinstDownloadUrlVar: string = 'advancedinstaller.url';
+const advinstIniUrlVar: string = 'advancedinstaller.ini.url';
 const advinstLicenseSubPath: string = 'Caphyon\\Advanced Installer\\license80.dat';
 const advinstRegVersionSwitch: string = '14.6';
 const advinstPsAutomationVersion = "16.1";
@@ -196,11 +197,9 @@ async function _extractAdvinst(sourceMsi: string): Promise<string> {
 }
 
 async function _getLatestVersion(): Promise<string> {
-  const versionsFile: string = await toolLib.downloadTool(
-    'https://www.advancedinstaller.com/downloads/updates.ini'
-  );
+  const updatesFileContent = await _getUpdatesFileContent();
   const iniParser = new ConfigIniParser();
-  const ini = iniParser.parse(fs.readFileSync(versionsFile, 'utf-8'));
+  const ini = iniParser.parse(updatesFileContent);
   return ini.get(ini.sections()[0], 'ProductVersion') as string;
 }
 function _getAgentTemp() {
@@ -226,11 +225,9 @@ async function _getMinAllowedAdvinstVersion(): Promise<string | null> {
   const minReleaseDate = new Date();
   minReleaseDate.setMonth(minReleaseDate.getMonth() - RELEASE_INTERVAL_MONTHS);
 
-  const versionsFile: string = await toolLib.downloadTool(
-    'https://www.advancedinstaller.com/downloads/updates.ini'
-  );
+  const updatesFileContent = await _getUpdatesFileContent();
   const iniParser = new ConfigIniParser();
-  const ini = iniParser.parse(fs.readFileSync(versionsFile, 'utf-8'));
+  const ini = iniParser.parse(updatesFileContent);
   const r = ini.sections().find(s => {
     const releaseDate = ini.get(s, 'ReleaseDate');
     const [day, month, year] = releaseDate.split('/');
@@ -242,6 +239,23 @@ async function _getMinAllowedAdvinstVersion(): Promise<string | null> {
   }
 
   return ini.get(r, 'ProductVersion') as string;
+}
+
+async function _getUpdatesFileContent(): Promise<string> {
+  const advinstIniUrl = taskLib.getVariable(advinstIniUrlVar) || 'https://www.advancedinstaller.com/downloads/updates.ini';
+  taskLib.debug('advinstIniUrl = ' + advinstIniUrl);
+  const updatesFile: string = await toolLib.downloadTool(advinstIniUrl);
+  return _readTextFileWithDetectedEncoding(updatesFile);
+}
+
+function _readTextFileWithDetectedEncoding(filePath: string): string {
+  const raw = fs.readFileSync(filePath);
+  const encoding: BufferEncoding = _hasUtf16LeBom(raw) ? 'utf16le' : 'utf8';
+  return raw.toString(encoding);
+}
+
+function _hasUtf16LeBom(raw: Buffer): boolean {
+  return raw.length >= 2 && raw[0] === 0xff && raw[1] === 0xfe;
 }
 
 run();
