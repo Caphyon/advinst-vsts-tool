@@ -92,3 +92,8 @@ Improvements:
 ### Advanced Installer Tool Installer 1.2.7
 
 * Update target NodeJs versions in order to avoid pipeline deprecation warnings.
+
+### Advanced Installer Tool Installer 1.2.8 / 2.0.2
+
+Bugs:
+* Improved updates INI decoding by using UTF-16LE BOM detection and falling back to UTF-8 when BOM is missing.
