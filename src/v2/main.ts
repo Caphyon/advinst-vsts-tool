@@ -3,9 +3,8 @@ import * as toolLib from 'azure-pipelines-tool-lib/tool';
 import * as path from 'path';
 import * as semvish from 'semvish';
 import * as cmpVer from 'compare-ver';
-import { ConfigIniParser } from 'config-ini-parser';
-import * as fs from 'fs';
 import { Writable } from 'stream';
+import { AdvinstReleases } from './advinstReleases';
 
 const advinstToolId: string = 'advinst';
 const advinstToolArch: string = 'x86';
@@ -15,7 +14,6 @@ const advinstMSBuildTargetsVar: string = 'AdvancedInstallerMSBuildTargets';
 const advinstToolRootVar: string = 'AdvancedInstallerRoot';
 const advinstMSBuildTargetsSubPath: string = 'ProgramFilesFolder\\MSBuild\\Caphyon\\Advanced Installer';
 const advinstDownloadUrlVar: string = 'advancedinstaller.url';
-const advinstIniUrlVar: string = 'advancedinstaller.ini.url';
 const advinstLicenseSubPath: string = 'Caphyon\\Advanced Installer\\license80.dat';
 const advinstRegVersionSwitch: string = '14.6';
 const advinstPsAutomationVersion = "16.1";
@@ -31,12 +29,14 @@ async function run() {
     const license: string = taskLib.getInput('advinstLicense', false);
     const startCOM = taskLib.getBoolInput('advinstEnableCom', true);
 
+    const advinstReleases = new AdvinstReleases();
+
     if (!version) {
-      version = await _getLatestVersion();
+      version = await advinstReleases.getLatestVersion();
       taskLib.debug(taskLib.loc("UseLatestVersion", version));
     }
 
-    const minAllowedVer = await _getMinAllowedAdvinstVersion();
+    const minAllowedVer = await advinstReleases.getMinAllowedAdvinstVersion();
     taskLib.debug('minAllowedVer = ' + minAllowedVer);
     if (cmpVer.lt(version, minAllowedVer) === 1){
       throw new Error(taskLib.loc("AI_ErrorInvalidConfigVersion",  minAllowedVer, version));
@@ -196,12 +196,6 @@ async function _extractAdvinst(sourceMsi: string): Promise<string> {
   return msiExtractionPath;
 }
 
-async function _getLatestVersion(): Promise<string> {
-  const updatesFileContent = await _getUpdatesFileContent();
-  const iniParser = new ConfigIniParser();
-  const ini = iniParser.parse(updatesFileContent);
-  return ini.get(ini.sections()[0], 'ProductVersion') as string;
-}
 function _getAgentTemp() {
   taskLib.assertAgent('2.115.0');
   let tempDirectory = taskLib.getVariable('Agent.TempDirectory');
@@ -217,45 +211,6 @@ function _getAdvinstToolVersion(path: string): string {
   const l = result.stdout.split("\r\n")[0];
   const re = new RegExp(/\d+(\.\d+)+/);
   return l.match(re)[0];
-}
-
-async function _getMinAllowedAdvinstVersion(): Promise<string | null> {
-  const RELEASE_INTERVAL_MONTHS = 24;
-
-  const minReleaseDate = new Date();
-  minReleaseDate.setMonth(minReleaseDate.getMonth() - RELEASE_INTERVAL_MONTHS);
-
-  const updatesFileContent = await _getUpdatesFileContent();
-  const iniParser = new ConfigIniParser();
-  const ini = iniParser.parse(updatesFileContent);
-  const r = ini.sections().find(s => {
-    const releaseDate = ini.get(s, 'ReleaseDate');
-    const [day, month, year] = releaseDate.split('/');
-    return minReleaseDate > new Date(`${year}-${month}-${day}`);
-  });
-
-  if (!r) {
-    return null;
-  }
-
-  return ini.get(r, 'ProductVersion') as string;
-}
-
-async function _getUpdatesFileContent(): Promise<string> {
-  const advinstIniUrl = taskLib.getVariable(advinstIniUrlVar) || 'https://www.advancedinstaller.com/downloads/updates.ini';
-  taskLib.debug('advinstIniUrl = ' + advinstIniUrl);
-  const updatesFile: string = await toolLib.downloadTool(advinstIniUrl);
-  return _readTextFileWithDetectedEncoding(updatesFile);
-}
-
-function _readTextFileWithDetectedEncoding(filePath: string): string {
-  const raw = fs.readFileSync(filePath);
-  const encoding: BufferEncoding = _hasUtf16LeBom(raw) ? 'utf16le' : 'utf8';
-  return raw.toString(encoding);
-}
-
-function _hasUtf16LeBom(raw: Buffer): boolean {
-  return raw.length >= 2 && raw[0] === 0xff && raw[1] === 0xfe;
 }
 
 run();
