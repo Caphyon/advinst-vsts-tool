@@ -97,3 +97,8 @@ Improvements:
 
 Bugs:
 * Improved updates INI decoding by using UTF-16LE BOM detection and falling back to UTF-8 when BOM is missing.
+
+### Advanced Installer Tool Installer 1.2.9 / 2.0.3
+
+Bugs:
+* Changed updates INI download url. This fixes a problem on some machines which marked the ini file as malicious.

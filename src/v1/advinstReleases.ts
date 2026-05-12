@@ -4,7 +4,7 @@ import { ConfigIniParser } from 'config-ini-parser';
 import * as fs from 'fs';
 
 const advinstIniUrlVar: string = 'advancedinstaller.ini.url';
-const defaultAdvinstIniUrl: string = 'https://www.advancedinstaller.com/downloads/updates.ini';
+const defaultAdvinstIniUrl: string = 'https://www.advancedinstaller.com/downloads/updates-cicd-integration.ini';
 
 export class AdvinstReleases {
   private _ini: any = null;

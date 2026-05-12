@@ -4,6 +4,7 @@ import { ConfigIniParser } from 'config-ini-parser';
 import * as fs from 'fs';
 
 const advinstIniUrlVar: string = 'advancedinstaller.ini.url';
+const defaultAdvinstIniUrl: string = 'https://www.advancedinstaller.com/downloads/updates-cicd-integration.ini';
 
 export class AdvinstReleases {
   private _ini: any = null;
@@ -42,7 +43,7 @@ export class AdvinstReleases {
   }
 
   private async _getUpdatesFileContent(): Promise<string> {
-    const advinstIniUrl = taskLib.getVariable(advinstIniUrlVar) || 'https://www.advancedinstaller.com/downloads/updates.ini';
+    const advinstIniUrl = taskLib.getVariable(advinstIniUrlVar) || defaultAdvinstIniUrl;
     taskLib.debug('advinstIniUrl = ' + advinstIniUrl);
     const updatesFile: string = await toolLib.downloadTool(advinstIniUrl);
     return this._readTextFileWithDetectedEncoding(updatesFile);

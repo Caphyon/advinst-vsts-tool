@@ -10,7 +10,7 @@ const mockedToolLib = jest.mocked(toolLib);
 const mockedTaskLib = jest.mocked(taskLib);
 
 const FAKE_INI_PATH = '/tmp/updates.ini';
-const DEFAULT_INI_URL = 'https://www.advancedinstaller.com/downloads/updates.ini';
+const DEFAULT_INI_URL = 'https://www.advancedinstaller.com/downloads/updates-cicd-integration.ini';
 
 // Sections ordered newest first. Fixed "now" = 2025-01-01, so 24 months ago = 2023-01-01.
 // v24 (2024-06-15) is within 24 months; v22 (2022-06-15) is older → min allowed version.
